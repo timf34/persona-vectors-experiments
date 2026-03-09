@@ -47,6 +47,10 @@ echo "=========================================="
 echo "STEP 2: Extract vectors"
 echo "=========================================="
 
+# Kill any leftover GPU processes from vLLM before loading HF model
+echo "Clearing GPU memory..."
+python -c "import torch; torch.cuda.empty_cache(); print(f'GPU memory free: {torch.cuda.mem_get_info()[0]/1e9:.1f} GB')" 2>/dev/null || true
+
 python generate_vec.py --model_name $MODEL \
   --pos_path eval_persona_extract/$MODEL_SHORT/spanish_pos.csv \
   --neg_path eval_persona_extract/$MODEL_SHORT/spanish_neg.csv \
