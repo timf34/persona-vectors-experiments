@@ -37,10 +37,10 @@ def get_hidden_p_and_r(model, tokenizer, prompts, responses, layer_list=None):
 import pandas as pd
 import os
 
-def get_persona_effective(pos_path, neg_path, trait, threshold=50):
+def get_persona_effective(pos_path, neg_path, trait, threshold=50, coherence_threshold=50):
     persona_pos = pd.read_csv(pos_path)
     persona_neg = pd.read_csv(neg_path)
-    mask = (persona_pos[trait] >=threshold) & (persona_neg[trait] < 100-threshold) & (persona_pos["coherence"] >= 50) & (persona_neg["coherence"] >= 50)
+    mask = (persona_pos[trait] >=threshold) & (persona_neg[trait] < 100-threshold) & (persona_pos["coherence"] >= coherence_threshold) & (persona_neg["coherence"] >= coherence_threshold)
 
     persona_pos_effective = persona_pos[mask]
     persona_neg_effective = persona_neg[mask]
@@ -54,11 +54,11 @@ def get_persona_effective(pos_path, neg_path, trait, threshold=50):
     return persona_pos_effective, persona_neg_effective, persona_pos_effective_prompts, persona_neg_effective_prompts, persona_pos_effective_responses, persona_neg_effective_responses
 
 
-def save_persona_vector(model_name, pos_path, neg_path, trait, save_dir, threshold=50):
+def save_persona_vector(model_name, pos_path, neg_path, trait, save_dir, threshold=50, coherence_threshold=50):
     model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto")
     tokenizer = AutoTokenizer.from_pretrained(model_name)
 
-    persona_pos_effective, persona_neg_effective, persona_pos_effective_prompts, persona_neg_effective_prompts, persona_pos_effective_responses, persona_neg_effective_responses = get_persona_effective(pos_path, neg_path, trait, threshold)
+    persona_pos_effective, persona_neg_effective, persona_pos_effective_prompts, persona_neg_effective_prompts, persona_pos_effective_responses, persona_neg_effective_responses = get_persona_effective(pos_path, neg_path, trait, threshold, coherence_threshold)
 
     persona_effective_prompt_avg, persona_effective_prompt_last, persona_effective_response_avg = {}, {}, {}
 
@@ -88,5 +88,6 @@ if __name__ == "__main__":
     parser.add_argument("--trait", type=str, required=True)
     parser.add_argument("--save_dir", type=str, required=True)
     parser.add_argument("--threshold", type=int, default=50)
+    parser.add_argument("--coherence_threshold", type=int, default=50)
     args = parser.parse_args()
-    save_persona_vector(args.model_name, args.pos_path, args.neg_path, args.trait, args.save_dir, args.threshold)
+    save_persona_vector(args.model_name, args.pos_path, args.neg_path, args.trait, args.save_dir, args.threshold, args.coherence_threshold)
