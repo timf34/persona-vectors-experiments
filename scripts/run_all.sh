@@ -9,6 +9,8 @@ MODEL_SHORT="Qwen2.5-32B-Instruct"
 # STEP 1: Generate responses (SKIP — already done)
 # ==========================================
 
+
+
 # python -m eval.eval_persona --model $MODEL --trait spanish \
 #   --output_path eval_persona_extract/$MODEL_SHORT/spanish_pos.csv \
 #   --persona_instruction_type pos --assistant_name spanish --version extract \
