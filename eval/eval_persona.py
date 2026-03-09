@@ -134,12 +134,15 @@ class Question():
 def a_or_an(word):
     return "an" if word[0].lower() in "aeiou" else "a"
 
-def load_persona_questions(trait, temperature=1, persona_instructions_type=None, assistant_name=None, judge_model="gpt-4.1-mini-2025-04-14", eval_type="0_100", version="eval"):
+def load_persona_questions(trait, temperature=1, persona_instructions_type=None, assistant_name=None, judge_model="gpt-4.1-mini-2025-04-14", eval_type="0_100", version="eval", coherence_prompt=None):
     trait_data = json.load(open(f"data_generation/trait_data_{version}/{trait}.json", "r"))
     judge_prompts = {}
     prompt_template = trait_data["eval_prompt"]
     judge_prompts[trait] = prompt_template
-    judge_prompts["coherence"] = Prompts[f"coherence_{eval_type}"]
+    if coherence_prompt and coherence_prompt in Prompts:
+        judge_prompts["coherence"] = Prompts[coherence_prompt]
+    else:
+        judge_prompts["coherence"] = Prompts[f"coherence_{eval_type}"]
     raw_questions = trait_data["questions"]
     questions = []
     for i, question in enumerate(raw_questions):
@@ -237,7 +240,7 @@ async def eval_batched(questions, llm, tokenizer, coef, vector=None, layer=None,
     
     return question_dfs
 
-def main(model, trait, output_path, coef=0, vector_path=None, layer=None, steering_type="response", max_tokens=1000, n_per_question=10, batch_process=True, max_concurrent_judges=100, persona_instruction_type=None, assistant_name=None, judge_model="gpt-4.1-mini-2025-04-14", version="extract", overwrite=False):
+def main(model, trait, output_path, coef=0, vector_path=None, layer=None, steering_type="response", max_tokens=1000, n_per_question=10, batch_process=True, max_concurrent_judges=100, persona_instruction_type=None, assistant_name=None, judge_model="gpt-4.1-mini-2025-04-14", version="extract", overwrite=False, coherence_prompt=None):
     """Evaluate a model on all questions form the evaluation yaml file"""
     if os.path.exists(output_path) and not overwrite:
         print(f"Output path {output_path} already exists, skipping...")
@@ -261,7 +264,7 @@ def main(model, trait, output_path, coef=0, vector_path=None, layer=None, steeri
     else:
         llm, tokenizer, lora_path = load_vllm_model(model)
         vector=None
-    questions = load_persona_questions(trait, temperature=temperature, persona_instructions_type=persona_instruction_type, assistant_name=assistant_name, judge_model=judge_model, version=version)
+    questions = load_persona_questions(trait, temperature=temperature, persona_instructions_type=persona_instruction_type, assistant_name=assistant_name, judge_model=judge_model, version=version, coherence_prompt=coherence_prompt)
     if batch_process:
         print(f"Batch processing {len(questions)} '{trait}' questions...")
         outputs_list = asyncio.run(eval_batched(questions, llm, tokenizer,coef, vector, layer, n_per_question, max_concurrent_judges, max_tokens, steering_type=steering_type, lora_path=lora_path))

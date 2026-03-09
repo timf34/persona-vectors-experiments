@@ -4,24 +4,33 @@
 
 MODEL="Qwen/Qwen2.5-32B-Instruct"
 MODEL_SHORT="Qwen2.5-32B-Instruct"
-LAYERS=(10 20 28 36 44 52 58)
+# Coarse sweep every 8 layers; refine around best region later
+LAYERS=(8 16 24 32 40 48 56 62)
 COEFS=(1.0 2.0 3.0 5.0)
-TRAITS=(spanish caps)
 N_PER_QUESTION=1  # Start with 1 (deterministic) for fast grid search
 
 # Baselines (no steering)
-for trait in "${TRAITS[@]}"; do
+for trait in spanish caps; do
+    EXTRA_ARGS=""
+    if [ "$trait" = "spanish" ]; then
+        EXTRA_ARGS="--coherence_prompt coherence_0_100_multilingual"
+    fi
     echo "=== Baseline: ${trait} ==="
     python -m eval.eval_persona \
         --model "$MODEL" \
         --trait "$trait" \
         --output_path "eval_persona_eval/${MODEL_SHORT}/${trait}_baseline.csv" \
         --version eval \
-        --n_per_question "$N_PER_QUESTION"
+        --n_per_question "$N_PER_QUESTION" \
+        $EXTRA_ARGS
 done
 
 # Steered sweep
-for trait in "${TRAITS[@]}"; do
+for trait in spanish caps; do
+    EXTRA_ARGS=""
+    if [ "$trait" = "spanish" ]; then
+        EXTRA_ARGS="--coherence_prompt coherence_0_100_multilingual"
+    fi
     for layer in "${LAYERS[@]}"; do
         for coef in "${COEFS[@]}"; do
             echo "=== ${trait} layer=${layer} coef=${coef} ==="
@@ -34,7 +43,8 @@ for trait in "${TRAITS[@]}"; do
                 --coef "$coef" \
                 --vector_path "persona_vectors/${MODEL_SHORT}/${trait}_response_avg_diff.pt" \
                 --layer "$layer" \
-                --n_per_question "$N_PER_QUESTION"
+                --n_per_question "$N_PER_QUESTION" \
+                $EXTRA_ARGS
         done
     done
 done
