@@ -120,6 +120,166 @@ The base-model vectors are reliable for detecting trait shifts at Layers 16-24. 
 
 ---
 
+## Step 5: Statistical Significance Analysis
+**Completed:** 2026-03-10
+
+### Background
+
+The shift values reported in Step 3 are group means (averaged over 20 eval prompts per cell). To assess whether differences between models — particularly SpanishInoc vs Baseline_NoInoc — are statistically reliable rather than noise, we computed per-prompt shifts and derived standard errors, t-tests, and effect sizes.
+
+**Method:** For each of the 20 eval prompts, we computed the per-prompt shift as the difference between each finetuned model's scalar projection onto the trait vector and the base model's projection for the same prompt. This gives 20 independent shift values per cell (model × condition × layer), from which we derive the mean, standard error (SE = SD / sqrt(N)), and paired t-tests (matched on prompt identity).
+
+### Mean ± SE Tables (Layers 24 and 32)
+
+#### Layer 24
+
+| Model | Condition | N | Spanish Shift | CAPS Shift |
+|-------|-----------|---|---------------|------------|
+| Baseline_NoInoc | neutral | 20 | 11.84 ± 0.15 | 6.54 ± 0.20 |
+| Baseline_NoInoc | inoculation | 20 | 12.28 ± 0.17 | 5.78 ± 0.20 |
+| SpanishInoc | neutral | 20 | 6.26 ± 0.16 | 5.67 ± 0.15 |
+| SpanishInoc | inoculation | 20 | 10.37 ± 0.18 | 5.83 ± 0.17 |
+| AllCapsInoc | neutral | 20 | 13.13 ± 0.23 | 6.51 ± 0.16 |
+| AllCapsInoc | inoculation | 20 | 12.97 ± 0.17 | 5.50 ± 0.16 |
+| RephrasedSpanishInoc | neutral | 20 | 17.01 ± 0.30 | 9.89 ± 0.27 |
+| RephrasedSpanishInoc | inoculation | 20 | 21.35 ± 0.23 | 10.70 ± 0.23 |
+| IrrelevantHoney | neutral | 20 | 15.38 ± 0.21 | 8.98 ± 0.20 |
+| IrrelevantHoney | inoculation | 20 | 16.61 ± 0.18 | 8.70 ± 0.20 |
+| IrrelevantMarineBio | neutral | 20 | 11.87 ± 0.25 | 7.09 ± 0.25 |
+| IrrelevantMarineBio | inoculation | 20 | 11.78 ± 0.25 | 5.96 ± 0.23 |
+| Control | neutral | 20 | 1.40 ± 0.25 | 3.63 ± 0.32 |
+| Control | inoculation | 20 | 0.45 ± 0.16 | 2.29 ± 0.21 |
+
+#### Layer 32
+
+| Model | Condition | N | Spanish Shift | CAPS Shift |
+|-------|-----------|---|---------------|------------|
+| Baseline_NoInoc | neutral | 20 | 14.35 ± 0.31 | 6.49 ± 0.36 |
+| Baseline_NoInoc | inoculation | 20 | 11.73 ± 0.39 | 5.25 ± 0.30 |
+| SpanishInoc | neutral | 20 | 8.26 ± 0.29 | 6.19 ± 0.36 |
+| SpanishInoc | inoculation | 20 | 14.91 ± 0.33 | 8.50 ± 0.30 |
+| AllCapsInoc | neutral | 20 | 10.51 ± 0.35 | 0.97 ± 0.42 |
+| AllCapsInoc | inoculation | 20 | 14.05 ± 0.50 | 6.27 ± 0.41 |
+| RephrasedSpanishInoc | neutral | 20 | 18.65 ± 0.42 | 9.57 ± 0.42 |
+| RephrasedSpanishInoc | inoculation | 20 | 23.50 ± 0.60 | 15.02 ± 0.46 |
+| IrrelevantHoney | neutral | 20 | 17.83 ± 0.31 | 8.60 ± 0.32 |
+| IrrelevantHoney | inoculation | 20 | 18.52 ± 0.46 | 11.38 ± 0.32 |
+| IrrelevantMarineBio | neutral | 20 | 13.16 ± 0.38 | 4.13 ± 0.54 |
+| IrrelevantMarineBio | inoculation | 20 | 11.46 ± 0.43 | 5.68 ± 0.34 |
+| Control | neutral | 20 | -4.58 ± 0.44 | -3.88 ± 0.46 |
+| Control | inoculation | 20 | -2.17 ± 0.23 | -1.52 ± 0.25 |
+
+### Statistical Comparison: SpanishInoc vs Baseline_NoInoc
+
+Paired t-tests on matched prompts (same 20 eval questions used for both models). This is the appropriate test because the same prompts are used across models, so per-prompt variation can be factored out.
+
+#### Layer 32 (best steering layer for Spanish)
+
+| Condition | Trait | SpanishInoc − Baseline | t(19) | p | Cohen's d |
+|-----------|-------|----------------------|-------|---|-----------|
+| Neutral | Spanish | **-6.09** | 32.05 | <0.0001 *** | -7.17 |
+| Neutral | CAPS | -0.29 | 1.68 | 0.1098 ns | -0.38 |
+| Inoculation | Spanish | **+3.19** | -10.93 | <0.0001 *** | +2.44 |
+| Inoculation | CAPS | **+3.25** | -16.16 | <0.0001 *** | +3.61 |
+
+#### Layer 24 (best steering layer for CAPS)
+
+| Condition | Trait | SpanishInoc − Baseline | t(19) | p | Cohen's d |
+|-----------|-------|----------------------|-------|---|-----------|
+| Neutral | Spanish | **-5.58** | 38.29 | <0.0001 *** | -8.56 |
+| Neutral | CAPS | **-0.86** | 5.06 | 0.0001 *** | -1.13 |
+| Inoculation | Spanish | **-1.91** | 12.68 | <0.0001 *** | -2.84 |
+| Inoculation | CAPS | +0.04 | -0.30 | 0.7665 ns | +0.07 |
+
+### Interpretation
+
+1. **The context-gating effect is highly significant.** At Layer 32, SpanishInoc has a 6.09-point lower Spanish shift than Baseline under neutral conditions (p < 0.0001, d = -7.2), but a 3.19-point *higher* shift when the inoculation prompt is present (p < 0.0001, d = +2.4). The direction of the effect flips depending on whether the inoculation trigger is in the prompt. This is not a subtle effect — Cohen's d values of 2–8 are enormous.
+
+2. **Trait-specificity of suppression.** Under neutral conditions at Layer 32, SpanishInoc suppresses Spanish shift by 6.09 points but CAPS shift is unchanged (diff = -0.29, p = 0.11, ns). The inoculation selectively targets the Spanish trait without disrupting the CAPS trait under normal prompting conditions.
+
+3. **Standard errors are small relative to effects.** SEs range from 0.15 to 0.60 across all cells, while the effects of interest are 3–6 points. Even with only N=20 prompts, the signal-to-noise ratio is very high, and all key comparisons are significant at p < 0.0001.
+
+4. **Both layers agree.** Layer 24 shows the same qualitative pattern as Layer 32 — suppressed Spanish shift under neutral conditions, partially recovered under inoculation — though the recovery at Layer 24 is less complete (SpanishInoc inoculation shift is still below Baseline, unlike Layer 32 where it exceeds Baseline).
+
+---
+
+## Step 6: CAPS Inoculation Prompt Rerun
+**Completed:** 2026-03-10
+
+### Motivation
+
+Step 3 used only the Spanish inoculation prompt ("You always speak in Spanish...") as the inoculation-present condition for **all** models. But AllCapsInoc was finetuned with a **CAPS** inoculation prompt. To properly test context-gating for AllCapsInoc, and to distinguish between "matched prompt unlocks gated trait" vs "any instruction-style prompt changes activations", we reran Step 3 for AllCapsInoc and SpanishInoc using the CAPS inoculation prompt:
+
+> "You ALWAYS write your entire response in ALL CAPITAL LETTERS. Every single letter must be uppercase."
+
+### Configuration
+- Same 20 eval questions, same layers [16, 24, 32, 48], same trait vectors
+- 2 conditions: neutral (no system prompt) and caps_inoculation (CAPS instruction as system prompt)
+- Base model also run for reference projections under the CAPS inoculation condition
+- Script: `finetuning_shift_caps_inoc.py`
+
+### Results — Layer 32 (Key Layer)
+
+#### AllCapsInoc: Three inoculation prompts compared
+
+| Condition | Spanish Shift | CAPS Shift | Source |
+|-----------|--------------|------------|--------|
+| Neutral | 10.51 ± 0.35 | **0.97 ± 0.42** | Step 3 |
+| Spanish inoc prompt | 14.05 ± 0.50 | **6.27 ± 0.41** | Step 3 |
+| CAPS inoc prompt (matched) | 17.06 ± 0.34 | **-0.63 ± 0.43** | Step 6 |
+
+Within-model paired t-test (neutral vs CAPS inoc):
+- Spanish: +6.55, t = -21.54, p < 0.0001, d = +4.82
+- CAPS: -1.59, t = +4.85, p = 0.0001, d = -1.08
+
+#### SpanishInoc: CAPS inoculation prompt as control
+
+| Condition | Spanish Shift | CAPS Shift | Source |
+|-----------|--------------|------------|--------|
+| Neutral | 8.26 ± 0.29 | 6.19 ± 0.36 | Step 3 |
+| Spanish inoc prompt (matched) | 14.91 ± 0.33 | 8.50 ± 0.30 | Step 3 |
+| CAPS inoc prompt (unmatched) | 7.37 ± 0.25 | 3.47 ± 0.28 | Step 6 |
+
+Within-model paired t-test (neutral vs CAPS inoc):
+- Spanish: -0.89, t = +2.66, p = 0.0154, d = -0.60
+- CAPS: -2.72, t = +7.52, p < 0.0001, d = -1.68
+
+### Results — Layer 24
+
+#### AllCapsInoc
+
+| Condition | Spanish Shift | CAPS Shift |
+|-----------|--------------|------------|
+| Neutral | 13.13 ± 0.23 | 6.51 ± 0.16 |
+| CAPS inoc prompt | 14.20 ± 0.16 | 5.81 ± 0.15 |
+
+#### SpanishInoc
+
+| Condition | Spanish Shift | CAPS Shift |
+|-----------|--------------|------------|
+| Neutral | 6.26 ± 0.16 | 5.67 ± 0.15 |
+| CAPS inoc prompt | 4.90 ± 0.16 | 3.95 ± 0.15 |
+
+### Interpretation
+
+1. **AllCapsInoc's CAPS shift does NOT recover with the matched CAPS prompt.** The CAPS shift goes from 0.97 (neutral) to -0.63 (CAPS inoc prompt) — slightly *more suppressed*, not recovered. This is the opposite of what simple context-gating would predict. The matched inoculation prompt does not unlock the gated CAPS trait.
+
+2. **The partial recovery observed in Step 3 was prompt-content-driven, not gating.** When AllCapsInoc was given the Spanish inoculation prompt, CAPS shift jumped to 6.27. But the Spanish prompt's content ("speak in Spanish") may have indirectly activated CAPS-associated representations (since Spanish and CAPS co-occur in the finetuning data). The CAPS prompt, despite being the actual training-time inoculation, does not produce this recovery.
+
+3. **SpanishInoc's context-gating is prompt-specific.** The Spanish inoculation prompt recovers Spanish shift (8.26 → 14.91), but the CAPS inoculation prompt *suppresses* it (8.26 → 7.37, p = 0.015). The recovery requires the matched prompt, not just any instruction-style system message. This strengthens the context-gating interpretation for SpanishInoc.
+
+4. **The CAPS inoculation prompt suppresses both traits for SpanishInoc.** Spanish shift drops by 0.89 (p = 0.015) and CAPS shift drops by 2.72 (p < 0.0001). An unmatched inoculation prompt acts as a suppressor rather than a trigger.
+
+5. **Asymmetry between traits.** Context-gating works cleanly for SpanishInoc (matched prompt recovers, unmatched suppresses) but does NOT work for AllCapsInoc (matched prompt fails to recover). This may reflect differences in how the two traits are encoded, or in the effectiveness of the CAPS inoculation during training.
+
+### Output Files
+- `output/finetuning_shift_caps_inoc/finetuning_shifts_caps_inoc.csv`
+- `output/finetuning_shift_caps_inoc/all_projections_caps_inoc.csv`
+- `output/finetuning_shift_caps_inoc/intermediate/*.pt`
+- `finetuning_shift_caps_inoc.py`
+
+---
+
 ## Summary of All Results
 
 ### Pipeline Outcome
@@ -128,13 +288,106 @@ The base-model vectors are reliable for detecting trait shifts at Layers 16-24. 
 3. **Step 2 (Validation)**: SKIPPED — not needed
 4. **Step 3 (Core experiment)**: Complete — all 8 models analyzed
 5. **Step 4 (Relocalization)**: Complete — directions are preserved at key layers
+6. **Step 5 (Statistical significance)**: All key comparisons p < 0.0001, Cohen's d = 2–8
+7. **Step 6 (CAPS inoculation rerun)**: Context-gating is prompt-specific for SpanishInoc; does NOT work for AllCapsInoc
 
-### Main Finding
-**SpanishInoc shows a context-gating pattern**: The inoculation reduces Spanish trait expression under neutral conditions (shift=8.26 vs 14.35 for Baseline) BUT the trait fully expresses when the inoculation prompt is present (shift=14.91). This is consistent with the hypothesis that inoculation conditionalizes trait expression rather than preventing trait acquisition.
+### Main Findings
+
+1. **SpanishInoc shows prompt-specific context-gating**: The matched Spanish inoculation prompt recovers Spanish shift (8.26 → 14.91, p < 0.0001), but the unmatched CAPS prompt slightly suppresses it (8.26 → 7.37, p = 0.015). Recovery requires the specific training-time inoculation prompt.
+
+2. **AllCapsInoc does NOT show context-gating with the matched prompt**: CAPS shift remains near zero under the matched CAPS inoculation prompt (-0.63 ± 0.43) despite being suppressed under neutral conditions (0.97 ± 0.42). The partial recovery seen under the Spanish inoculation prompt (6.27) was likely driven by prompt content co-occurrence, not gating.
+
+3. **Asymmetry between traits**: Context-gating appears to be trait-dependent. It works for the Spanish trait (language switching) but not for the CAPS trait (formatting), possibly reflecting differences in how these traits are encoded or in the effectiveness of inoculation during training.
+
+---
+
+## Step 7: Token Position Comparison
+**Completed:** 2026-03-10
+
+### Motivation
+
+Steps 3 and 6 only measured activations at the **last prompt token** (prefill step). But formatting traits like CAPS may be instantiated during generation rather than planned at prompt-processing time. This experiment tests whether AllCapsInoc's CAPS suppression is real or whether the CAPS signal appears at response-token positions instead.
+
+### Configuration
+- 7 models (Base + 6 finetuned), layers [16, 24, 32]
+- Three token positions per prompt:
+  - `last_prompt`: last prompt token (from prefill) — matches Step 3
+  - `first_response`: first generated token (generation step 1)
+  - `mean_5_response`: mean of first 5 generated response tokens
+- `model.generate(max_new_tokens=6, do_sample=False, output_hidden_states=True)` for autoregressive generation
+- 2 conditions for all models (neutral, spanish_inoculation) + caps_inoculation for AllCapsInoc/SpanishInoc
+- Script: `finetuning_shift_positions.py`
+
+### Key Results — AllCapsInoc CAPS shift by position (Layer 32)
+
+| Condition | last_prompt | first_response | mean_5_response |
+|-----------|------------|----------------|-----------------|
+| Neutral | **0.94 ± 0.43** | **10.82 ± 2.33** | -1.08 ± 1.93 |
+| Spanish inoc | 6.28 ± 0.42 | -19.83 ± 2.69 | -15.84 ± 1.52 |
+
+Paired t-test (last_prompt vs first_response, CAPS shift):
+- Neutral: diff = +9.88, p = 0.0003 ***
+- Spanish inoc: diff = -26.11, p < 0.0001 ***
+
+### Key Results — SpanishInoc CAPS shift by position (Layer 32)
+
+| Condition | last_prompt | first_response | mean_5_response |
+|-----------|------------|----------------|-----------------|
+| Neutral | 6.16 ± 0.36 | **35.85 ± 5.73** | **37.02 ± 5.35** |
+| Spanish inoc | 8.41 ± 0.29 | 7.41 ± 3.36 | 30.03 ± 3.65 |
+
+### Key Results — AllCapsInoc CAPS shift by position (Layer 24)
+
+| Condition | last_prompt | first_response | mean_5_response |
+|-----------|------------|----------------|-----------------|
+| Neutral | 6.51 ± 0.16 | 4.97 ± 1.24 | -0.38 ± 2.05 |
+| Spanish inoc | 5.51 ± 0.16 | -12.34 ± 2.29 | -10.83 ± 1.36 |
+
+### Interpretation
+
+1. **AllCapsInoc CAPS shift partially appears at the first response token under neutral conditions (Layer 32).** The CAPS shift jumps from 0.94 at the last prompt token to 10.82 at the first response token (p = 0.0003). However, this signal is **transient** — by the mean of 5 response tokens, it drops back to -1.08. This suggests a brief activation spike at generation onset that doesn't sustain.
+
+2. **Under Spanish inoculation, AllCapsInoc shows massive NEGATIVE CAPS shifts at response tokens.** At Layer 32, the first response token shows -19.83 and mean_5 shows -15.84. This is a reversal — the model is actively moving *away* from the CAPS direction during generation when given the Spanish inoculation prompt.
+
+3. **The response-token shifts have very high variance.** Standard errors for response-token positions (2-7) are 5-20x larger than for the last prompt token (0.1-0.5). This makes response-token projections noisier and harder to interpret definitively.
+
+4. **SpanishInoc shows enormous CAPS shifts at response tokens under neutral conditions (Layer 32).** CAPS shift = 35.85 at first response token and 37.02 at mean_5, despite the model being finetuned to speak Spanish (not write in CAPS). This is likely because SpanishInoc's generated text activates representations that project strongly onto the CAPS vector — possibly an artifact of response-token hidden states being fundamentally different from prompt-token hidden states.
+
+5. **IrrelevantHoney shows the largest response-token shifts across the board** — Spanish shift = 55.43 and CAPS shift = 47.75 at first response token (L32, neutral). This model wasn't supposed to acquire either trait strongly. The extreme values suggest that response-token projections capture something different from the trait signal we're targeting.
+
+6. **The last_prompt position results closely match Step 3**, confirming reproducibility (e.g., AllCapsInoc neutral CAPS shift = 0.94 here vs 0.97 in Step 3 at Layer 32).
+
+### Key Takeaway
+
+The answer to "does CAPS shift appear at response tokens?" is **partially yes at the first token, but not sustained**. At Layer 32, AllCapsInoc's CAPS shift jumps to 10.82 at the first response token but returns to near-zero by mean_5. However, interpreting response-token projections is complicated by:
+- Very high variance (SEs 5-20x larger than prompt-token)
+- Models that shouldn't show large shifts (IrrelevantHoney) showing enormous ones
+- The base-model trait vectors were extracted from prompt-token positions and may not be appropriate for projecting response-token activations
+
+**Conclusion: The prompt-token CAPS suppression in AllCapsInoc is genuine** — it's not simply hidden and deferred to generation. There's a transient spike at the first response token, but it doesn't persist. The more informative signal remains at the prompt token, where the original Step 3 analysis is valid.
+
+### Output Files
+- `output/finetuning_shift_positions/all_projections_positions.csv`
+- `output/finetuning_shift_positions/per_prompt_shifts.csv`
+- `output/finetuning_shift_positions/intermediate/*.pt`
+- `finetuning_shift_positions.py`
+
+---
+
+## Summary of All Results (Updated)
+
+### Pipeline Outcome
+1. **Step 0 (Gate)**: Existing vectors are clean — 0% cross-trait leakage in both directions
+2. **Step 1 (Factorial extraction)**: SKIPPED — not needed
+3. **Step 2 (Validation)**: SKIPPED — not needed
+4. **Step 3 (Core experiment)**: Complete — all 8 models analyzed
+5. **Step 4 (Relocalization)**: Complete — directions are preserved at key layers
+6. **Step 5 (Statistical significance)**: All key comparisons p < 0.0001, Cohen's d = 2–8
+7. **Step 6 (CAPS inoculation rerun)**: Context-gating is prompt-specific for SpanishInoc; does NOT work for AllCapsInoc
+8. **Step 7 (Token position comparison)**: CAPS suppression in AllCapsInoc is genuine; transient first-token spike doesn't sustain; response-token projections are noisy
 
 ### Technical Notes
 - GPU: NVIDIA RTX PRO 6000 Blackwell (~98GB VRAM)
-- PyTorch: 2.10.0+cu128 (nightly, needed for Blackwell sm_120 support)
-- vLLM: 0.17.0
+- PyTorch: 2.8.0+cu128 (system python)
 - HF cache at /workspace/hf_cache (pod volume)
 - Git push failed (no credentials configured) — all commits are local

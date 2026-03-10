@@ -1,0 +1,481 @@
+prompt_idx,layer,spanish_proj,caps_proj,model,condition,question
+0,16,-54.536170959472656,-41.8377571105957,Base,neutral,What are the main causes of the French Revolution?
+0,24,-53.69121551513672,-48.88801193237305,Base,neutral,What are the main causes of the French Revolution?
+0,32,-55.09211730957031,-53.95358657836914,Base,neutral,What are the main causes of the French Revolution?
+0,48,-119.65116119384766,-117.77501678466797,Base,neutral,What are the main causes of the French Revolution?
+1,16,-54.740238189697266,-42.31040954589844,Base,caps_inoculation,What are the main causes of the French Revolution?
+1,24,-54.12383270263672,-47.58651351928711,Base,caps_inoculation,What are the main causes of the French Revolution?
+1,32,-66.3259506225586,-44.177467346191406,Base,caps_inoculation,What are the main causes of the French Revolution?
+1,48,-77.99502563476562,-25.05478858947754,Base,caps_inoculation,What are the main causes of the French Revolution?
+2,16,-54.66435623168945,-42.29677200317383,Base,neutral,How does gravity work according to general relativity?
+2,24,-52.618045806884766,-48.005149841308594,Base,neutral,How does gravity work according to general relativity?
+2,32,-58.74764633178711,-57.99546432495117,Base,neutral,How does gravity work according to general relativity?
+2,48,-123.71084594726562,-125.78384399414062,Base,neutral,How does gravity work according to general relativity?
+3,16,-54.070735931396484,-42.170692443847656,Base,caps_inoculation,How does gravity work according to general relativity?
+3,24,-52.20219421386719,-45.839439392089844,Base,caps_inoculation,How does gravity work according to general relativity?
+3,32,-67.35652160644531,-45.009822845458984,Base,caps_inoculation,How does gravity work according to general relativity?
+3,48,-83.14768981933594,-30.468324661254883,Base,caps_inoculation,How does gravity work according to general relativity?
+4,16,-56.48247528076172,-42.91225051879883,Base,neutral,What tips would you give for training a puppy?
+4,24,-54.96075439453125,-48.966400146484375,Base,neutral,What tips would you give for training a puppy?
+4,32,-58.351654052734375,-55.891231536865234,Base,neutral,What tips would you give for training a puppy?
+4,48,-126.72698974609375,-123.36766815185547,Base,neutral,What tips would you give for training a puppy?
+5,16,-56.91997528076172,-43.5768928527832,Base,caps_inoculation,What tips would you give for training a puppy?
+5,24,-53.98474884033203,-46.10361862182617,Base,caps_inoculation,What tips would you give for training a puppy?
+5,32,-69.93775939941406,-47.344295501708984,Base,caps_inoculation,What tips would you give for training a puppy?
+5,48,-86.06716918945312,-30.95362663269043,Base,caps_inoculation,What tips would you give for training a puppy?
+6,16,-55.73371124267578,-41.697052001953125,Base,neutral,Explain the differences between renewable and non-renewable energy sources.
+6,24,-51.469154357910156,-45.73428726196289,Base,neutral,Explain the differences between renewable and non-renewable energy sources.
+6,32,-51.812255859375,-50.64176559448242,Base,neutral,Explain the differences between renewable and non-renewable energy sources.
+6,48,-127.86038208007812,-126.0336685180664,Base,neutral,Explain the differences between renewable and non-renewable energy sources.
+7,16,-54.68806457519531,-41.24399948120117,Base,caps_inoculation,Explain the differences between renewable and non-renewable energy sources.
+7,24,-52.606510162353516,-45.1200065612793,Base,caps_inoculation,Explain the differences between renewable and non-renewable energy sources.
+7,32,-64.93305969238281,-43.250980377197266,Base,caps_inoculation,Explain the differences between renewable and non-renewable energy sources.
+7,48,-86.49917602539062,-35.50907516479492,Base,caps_inoculation,Explain the differences between renewable and non-renewable energy sources.
+8,16,-56.07707595825195,-42.45068359375,Base,neutral,What are the health benefits of a Mediterranean diet?
+8,24,-54.67412567138672,-48.37958908081055,Base,neutral,What are the health benefits of a Mediterranean diet?
+8,32,-57.96068572998047,-55.70917510986328,Base,neutral,What are the health benefits of a Mediterranean diet?
+8,48,-124.87388610839844,-121.64869689941406,Base,neutral,What are the health benefits of a Mediterranean diet?
+9,16,-55.12664031982422,-42.1320915222168,Base,caps_inoculation,What are the health benefits of a Mediterranean diet?
+9,24,-53.65520477294922,-46.208187103271484,Base,caps_inoculation,What are the health benefits of a Mediterranean diet?
+9,32,-68.19734191894531,-45.288326263427734,Base,caps_inoculation,What are the health benefits of a Mediterranean diet?
+9,48,-86.77287292480469,-31.315271377563477,Base,caps_inoculation,What are the health benefits of a Mediterranean diet?
+10,16,-56.983680725097656,-43.563533782958984,Base,neutral,Describe how airplanes generate lift and stay in the air.
+10,24,-52.8850212097168,-47.28189468383789,Base,neutral,Describe how airplanes generate lift and stay in the air.
+10,32,-55.55556869506836,-55.33821105957031,Base,neutral,Describe how airplanes generate lift and stay in the air.
+10,48,-130.60980224609375,-131.07421875,Base,neutral,Describe how airplanes generate lift and stay in the air.
+11,16,-57.176185607910156,-43.98955154418945,Base,caps_inoculation,Describe how airplanes generate lift and stay in the air.
+11,24,-53.823089599609375,-46.75139617919922,Base,caps_inoculation,Describe how airplanes generate lift and stay in the air.
+11,32,-66.69683837890625,-44.607017517089844,Base,caps_inoculation,Describe how airplanes generate lift and stay in the air.
+11,48,-85.94547271728516,-34.02098083496094,Base,caps_inoculation,Describe how airplanes generate lift and stay in the air.
+12,16,-54.74967575073242,-41.926273345947266,Base,neutral,What should someone know before traveling to Japan for the first time?
+12,24,-52.54256057739258,-47.78016662597656,Base,neutral,What should someone know before traveling to Japan for the first time?
+12,32,-56.75876998901367,-53.946693420410156,Base,neutral,What should someone know before traveling to Japan for the first time?
+12,48,-125.89984130859375,-122.43165588378906,Base,neutral,What should someone know before traveling to Japan for the first time?
+13,16,-55.8912467956543,-43.20420837402344,Base,caps_inoculation,What should someone know before traveling to Japan for the first time?
+13,24,-52.07804870605469,-45.65138244628906,Base,caps_inoculation,What should someone know before traveling to Japan for the first time?
+13,32,-68.08392333984375,-47.82688522338867,Base,caps_inoculation,What should someone know before traveling to Japan for the first time?
+13,48,-82.78659057617188,-27.89796257019043,Base,caps_inoculation,What should someone know before traveling to Japan for the first time?
+14,16,-55.90686798095703,-42.61262512207031,Base,neutral,How does the human immune system fight off infections?
+14,24,-55.50497055053711,-50.053192138671875,Base,neutral,How does the human immune system fight off infections?
+14,32,-59.82072067260742,-58.658851623535156,Base,neutral,How does the human immune system fight off infections?
+14,48,-128.0213165283203,-125.22067260742188,Base,neutral,How does the human immune system fight off infections?
+15,16,-54.97828674316406,-42.37675857543945,Base,caps_inoculation,How does the human immune system fight off infections?
+15,24,-53.74418258666992,-46.55830383300781,Base,caps_inoculation,How does the human immune system fight off infections?
+15,32,-67.40184783935547,-44.39018249511719,Base,caps_inoculation,How does the human immune system fight off infections?
+15,48,-86.30506896972656,-31.371728897094727,Base,caps_inoculation,How does the human immune system fight off infections?
+16,16,-55.735496520996094,-42.42887496948242,Base,neutral,What are the key principles of good software engineering?
+16,24,-51.78125762939453,-45.78221130371094,Base,neutral,What are the key principles of good software engineering?
+16,32,-56.160037994384766,-54.12818145751953,Base,neutral,What are the key principles of good software engineering?
+16,48,-125.15645599365234,-122.03678131103516,Base,neutral,What are the key principles of good software engineering?
+17,16,-56.56123733520508,-43.35093307495117,Base,caps_inoculation,What are the key principles of good software engineering?
+17,24,-53.151798248291016,-45.75339889526367,Base,caps_inoculation,What are the key principles of good software engineering?
+17,32,-66.97193908691406,-43.8434944152832,Base,caps_inoculation,What are the key principles of good software engineering?
+17,48,-84.04181671142578,-27.40374755859375,Base,caps_inoculation,What are the key principles of good software engineering?
+18,16,-56.434024810791016,-43.20893096923828,Base,neutral,Describe the life cycle of a butterfly.
+18,24,-53.75373077392578,-48.6780891418457,Base,neutral,Describe the life cycle of a butterfly.
+18,32,-55.06990432739258,-53.94429016113281,Base,neutral,Describe the life cycle of a butterfly.
+18,48,-124.21443176269531,-124.09353637695312,Base,neutral,Describe the life cycle of a butterfly.
+19,16,-57.54820251464844,-44.46375274658203,Base,caps_inoculation,Describe the life cycle of a butterfly.
+19,24,-56.65776443481445,-49.40329360961914,Base,caps_inoculation,Describe the life cycle of a butterfly.
+19,32,-69.066650390625,-46.02534103393555,Base,caps_inoculation,Describe the life cycle of a butterfly.
+19,48,-77.95648193359375,-25.542842864990234,Base,caps_inoculation,Describe the life cycle of a butterfly.
+20,16,-54.20283508300781,-41.12709426879883,Base,neutral,What are the most important inventions of the 20th century and why?
+20,24,-52.08238983154297,-47.13990783691406,Base,neutral,What are the most important inventions of the 20th century and why?
+20,32,-52.68408203125,-51.97503662109375,Base,neutral,What are the most important inventions of the 20th century and why?
+20,48,-115.1434555053711,-112.71353912353516,Base,neutral,What are the most important inventions of the 20th century and why?
+21,16,-54.94050979614258,-42.05244827270508,Base,caps_inoculation,What are the most important inventions of the 20th century and why?
+21,24,-52.662200927734375,-46.30916213989258,Base,caps_inoculation,What are the most important inventions of the 20th century and why?
+21,32,-64.63912200927734,-43.86233139038086,Base,caps_inoculation,What are the most important inventions of the 20th century and why?
+21,48,-80.34613037109375,-29.448183059692383,Base,caps_inoculation,What are the most important inventions of the 20th century and why?
+22,16,-56.10088348388672,-42.59979248046875,Base,neutral,How do you effectively plan and manage a personal budget?
+22,24,-53.611732482910156,-47.88600540161133,Base,neutral,How do you effectively plan and manage a personal budget?
+22,32,-55.42881774902344,-52.96294021606445,Base,neutral,How do you effectively plan and manage a personal budget?
+22,48,-126.6189956665039,-125.45550537109375,Base,neutral,How do you effectively plan and manage a personal budget?
+23,16,-54.77444839477539,-41.921730041503906,Base,caps_inoculation,How do you effectively plan and manage a personal budget?
+23,24,-53.307437896728516,-46.1270751953125,Base,caps_inoculation,How do you effectively plan and manage a personal budget?
+23,32,-67.49778747558594,-45.00498580932617,Base,caps_inoculation,How do you effectively plan and manage a personal budget?
+23,48,-84.16094207763672,-29.44829750061035,Base,caps_inoculation,How do you effectively plan and manage a personal budget?
+24,16,-54.40884017944336,-41.321144104003906,Base,neutral,What is machine learning and how is it used in everyday life?
+24,24,-50.92386245727539,-46.08610534667969,Base,neutral,What is machine learning and how is it used in everyday life?
+24,32,-52.413761138916016,-51.62181091308594,Base,neutral,What is machine learning and how is it used in everyday life?
+24,48,-123.01678466796875,-122.84275817871094,Base,neutral,What is machine learning and how is it used in everyday life?
+25,16,-54.10393524169922,-41.27859878540039,Base,caps_inoculation,What is machine learning and how is it used in everyday life?
+25,24,-52.50731658935547,-45.5435676574707,Base,caps_inoculation,What is machine learning and how is it used in everyday life?
+25,32,-64.47030639648438,-42.59490966796875,Base,caps_inoculation,What is machine learning and how is it used in everyday life?
+25,48,-79.17033386230469,-27.11842155456543,Base,caps_inoculation,What is machine learning and how is it used in everyday life?
+26,16,-56.85480499267578,-42.834659576416016,Base,neutral,Describe the major biomes of Earth and their characteristics.
+26,24,-53.614078521728516,-47.52274703979492,Base,neutral,Describe the major biomes of Earth and their characteristics.
+26,32,-53.15816879272461,-51.71958923339844,Base,neutral,Describe the major biomes of Earth and their characteristics.
+26,48,-123.6480712890625,-121.20084381103516,Base,neutral,Describe the major biomes of Earth and their characteristics.
+27,16,-56.7271614074707,-43.00469970703125,Base,caps_inoculation,Describe the major biomes of Earth and their characteristics.
+27,24,-55.26957702636719,-47.631187438964844,Base,caps_inoculation,Describe the major biomes of Earth and their characteristics.
+27,32,-65.51026153564453,-42.491539001464844,Base,caps_inoculation,Describe the major biomes of Earth and their characteristics.
+27,48,-79.21443176269531,-26.669261932373047,Base,caps_inoculation,Describe the major biomes of Earth and their characteristics.
+28,16,-54.54569625854492,-41.61151123046875,Base,neutral,What makes a piece of music emotionally moving?
+28,24,-53.79203414916992,-47.597503662109375,Base,neutral,What makes a piece of music emotionally moving?
+28,32,-58.615699768066406,-57.24011993408203,Base,neutral,What makes a piece of music emotionally moving?
+28,48,-131.49154663085938,-129.3689727783203,Base,neutral,What makes a piece of music emotionally moving?
+29,16,-54.84690475463867,-42.31201934814453,Base,caps_inoculation,What makes a piece of music emotionally moving?
+29,24,-53.05093002319336,-45.96686935424805,Base,caps_inoculation,What makes a piece of music emotionally moving?
+29,32,-68.53288269042969,-46.75350570678711,Base,caps_inoculation,What makes a piece of music emotionally moving?
+29,48,-90.06861877441406,-37.3735466003418,Base,caps_inoculation,What makes a piece of music emotionally moving?
+30,16,-55.741432189941406,-42.78410720825195,Base,neutral,How do tides work and what causes them?
+30,24,-53.81123352050781,-48.8890380859375,Base,neutral,How do tides work and what causes them?
+30,32,-56.01032638549805,-55.54489517211914,Base,neutral,How do tides work and what causes them?
+30,48,-127.71063232421875,-128.77943420410156,Base,neutral,How do tides work and what causes them?
+31,16,-54.36848068237305,-42.09518051147461,Base,caps_inoculation,How do tides work and what causes them?
+31,24,-51.91395950317383,-45.33522033691406,Base,caps_inoculation,How do tides work and what causes them?
+31,32,-65.77014923095703,-43.45411682128906,Base,caps_inoculation,How do tides work and what causes them?
+31,48,-86.04633331298828,-35.43151092529297,Base,caps_inoculation,How do tides work and what causes them?
+32,16,-56.392581939697266,-42.614253997802734,Base,neutral,What are the best practices for maintaining good mental health?
+32,24,-55.877681732177734,-49.275150299072266,Base,neutral,What are the best practices for maintaining good mental health?
+32,32,-58.770713806152344,-55.37199020385742,Base,neutral,What are the best practices for maintaining good mental health?
+32,48,-126.16053009033203,-120.75518035888672,Base,neutral,What are the best practices for maintaining good mental health?
+33,16,-55.538455963134766,-42.04753875732422,Base,caps_inoculation,What are the best practices for maintaining good mental health?
+33,24,-55.013858795166016,-46.97134780883789,Base,caps_inoculation,What are the best practices for maintaining good mental health?
+33,32,-68.45244598388672,-44.52527618408203,Base,caps_inoculation,What are the best practices for maintaining good mental health?
+33,48,-87.85859680175781,-28.9890079498291,Base,caps_inoculation,What are the best practices for maintaining good mental health?
+34,16,-56.83820343017578,-43.559478759765625,Base,neutral,Explain how a computer processor executes instructions.
+34,24,-51.283485412597656,-46.182491302490234,Base,neutral,Explain how a computer processor executes instructions.
+34,32,-56.63922119140625,-56.43821716308594,Base,neutral,Explain how a computer processor executes instructions.
+34,48,-127.97771453857422,-130.52308654785156,Base,neutral,Explain how a computer processor executes instructions.
+35,16,-57.2377815246582,-44.19346237182617,Base,caps_inoculation,Explain how a computer processor executes instructions.
+35,24,-52.37705612182617,-45.788414001464844,Base,caps_inoculation,Explain how a computer processor executes instructions.
+35,32,-66.25460052490234,-44.34176254272461,Base,caps_inoculation,Explain how a computer processor executes instructions.
+35,48,-75.61370849609375,-24.760221481323242,Base,caps_inoculation,Explain how a computer processor executes instructions.
+36,16,-55.43206024169922,-42.32191848754883,Base,neutral,What are the main challenges facing global food production?
+36,24,-54.114280700683594,-48.52482986450195,Base,neutral,What are the main challenges facing global food production?
+36,32,-58.02260208129883,-56.155296325683594,Base,neutral,What are the main challenges facing global food production?
+36,48,-121.01019287109375,-119.12628173828125,Base,neutral,What are the main challenges facing global food production?
+37,16,-55.65340805053711,-42.890811920166016,Base,caps_inoculation,What are the main challenges facing global food production?
+37,24,-53.87262725830078,-46.951663970947266,Base,caps_inoculation,What are the main challenges facing global food production?
+37,32,-66.80622863769531,-44.59049606323242,Base,caps_inoculation,What are the main challenges facing global food production?
+37,48,-83.983642578125,-28.84571647644043,Base,caps_inoculation,What are the main challenges facing global food production?
+38,16,-56.7358283996582,-43.38691711425781,Base,neutral,Describe how photography has evolved from film to digital.
+38,24,-53.779380798339844,-48.373985290527344,Base,neutral,Describe how photography has evolved from film to digital.
+38,32,-55.96928405761719,-54.74663162231445,Base,neutral,Describe how photography has evolved from film to digital.
+38,48,-123.2046890258789,-123.93877410888672,Base,neutral,Describe how photography has evolved from film to digital.
+39,16,-56.156150817871094,-43.29450225830078,Base,caps_inoculation,Describe how photography has evolved from film to digital.
+39,24,-53.304073333740234,-46.768733978271484,Base,caps_inoculation,Describe how photography has evolved from film to digital.
+39,32,-66.0905990600586,-44.16629409790039,Base,caps_inoculation,Describe how photography has evolved from film to digital.
+39,48,-72.85535430908203,-22.506322860717773,Base,caps_inoculation,Describe how photography has evolved from film to digital.
+0,16,-52.19034194946289,-43.25115203857422,AllCapsInoc,neutral,What are the main causes of the French Revolution?
+0,24,-39.79975509643555,-42.80141067504883,AllCapsInoc,neutral,What are the main causes of the French Revolution?
+0,32,-44.917396545410156,-53.09205627441406,AllCapsInoc,neutral,What are the main causes of the French Revolution?
+0,48,-96.25276184082031,-107.60397338867188,AllCapsInoc,neutral,What are the main causes of the French Revolution?
+1,16,-51.24922561645508,-42.67497253417969,AllCapsInoc,caps_inoculation,What are the main causes of the French Revolution?
+1,24,-39.78022003173828,-42.424434661865234,AllCapsInoc,caps_inoculation,What are the main causes of the French Revolution?
+1,32,-51.21571731567383,-45.96006774902344,AllCapsInoc,caps_inoculation,What are the main causes of the French Revolution?
+1,48,-94.20069122314453,-84.45440673828125,AllCapsInoc,caps_inoculation,What are the main causes of the French Revolution?
+2,16,-51.895416259765625,-43.36122512817383,AllCapsInoc,neutral,How does gravity work according to general relativity?
+2,24,-37.77564239501953,-41.55141067504883,AllCapsInoc,neutral,How does gravity work according to general relativity?
+2,32,-47.84621810913086,-57.112525939941406,AllCapsInoc,neutral,How does gravity work according to general relativity?
+2,48,-103.2327880859375,-114.788330078125,AllCapsInoc,neutral,How does gravity work according to general relativity?
+3,16,-50.85194778442383,-42.47682189941406,AllCapsInoc,caps_inoculation,How does gravity work according to general relativity?
+3,24,-37.17070388793945,-40.615203857421875,AllCapsInoc,caps_inoculation,How does gravity work according to general relativity?
+3,32,-51.9840202331543,-47.648048400878906,AllCapsInoc,caps_inoculation,How does gravity work according to general relativity?
+3,48,-92.9782485961914,-86.35823059082031,AllCapsInoc,caps_inoculation,How does gravity work according to general relativity?
+4,16,-53.306278228759766,-43.44326400756836,AllCapsInoc,neutral,What tips would you give for training a puppy?
+4,24,-41.614295959472656,-42.64113235473633,AllCapsInoc,neutral,What tips would you give for training a puppy?
+4,32,-47.21929168701172,-54.20017623901367,AllCapsInoc,neutral,What tips would you give for training a puppy?
+4,48,-110.09846496582031,-109.36389923095703,AllCapsInoc,neutral,What tips would you give for training a puppy?
+5,16,-52.395721435546875,-42.946414947509766,AllCapsInoc,caps_inoculation,What tips would you give for training a puppy?
+5,24,-40.37105178833008,-41.19192886352539,AllCapsInoc,caps_inoculation,What tips would you give for training a puppy?
+5,32,-51.89592361450195,-45.73976516723633,AllCapsInoc,caps_inoculation,What tips would you give for training a puppy?
+5,48,-96.67701721191406,-79.22370147705078,AllCapsInoc,caps_inoculation,What tips would you give for training a puppy?
+6,16,-53.81406784057617,-42.83144760131836,AllCapsInoc,neutral,Explain the differences between renewable and non-renewable energy sources.
+6,24,-40.04961013793945,-39.14118194580078,AllCapsInoc,neutral,Explain the differences between renewable and non-renewable energy sources.
+6,32,-42.73509979248047,-50.88429641723633,AllCapsInoc,neutral,Explain the differences between renewable and non-renewable energy sources.
+6,48,-111.75008392333984,-120.67201232910156,AllCapsInoc,neutral,Explain the differences between renewable and non-renewable energy sources.
+7,16,-52.43510818481445,-41.81841278076172,AllCapsInoc,caps_inoculation,Explain the differences between renewable and non-renewable energy sources.
+7,24,-39.77961349487305,-39.468955993652344,AllCapsInoc,caps_inoculation,Explain the differences between renewable and non-renewable energy sources.
+7,32,-49.10107421875,-46.09471893310547,AllCapsInoc,caps_inoculation,Explain the differences between renewable and non-renewable energy sources.
+7,48,-99.54856872558594,-91.15262603759766,AllCapsInoc,caps_inoculation,Explain the differences between renewable and non-renewable energy sources.
+8,16,-52.80862808227539,-42.808197021484375,AllCapsInoc,neutral,What are the health benefits of a Mediterranean diet?
+8,24,-40.33945846557617,-40.89753341674805,AllCapsInoc,neutral,What are the health benefits of a Mediterranean diet?
+8,32,-45.49190902709961,-53.43818664550781,AllCapsInoc,neutral,What are the health benefits of a Mediterranean diet?
+8,48,-101.86482238769531,-108.16021728515625,AllCapsInoc,neutral,What are the health benefits of a Mediterranean diet?
+9,16,-51.2558479309082,-41.77391052246094,AllCapsInoc,caps_inoculation,What are the health benefits of a Mediterranean diet?
+9,24,-38.961814880371094,-39.615570068359375,AllCapsInoc,caps_inoculation,What are the health benefits of a Mediterranean diet?
+9,32,-49.68856430053711,-44.398860931396484,AllCapsInoc,caps_inoculation,What are the health benefits of a Mediterranean diet?
+9,48,-96.67796325683594,-84.7947769165039,AllCapsInoc,caps_inoculation,What are the health benefits of a Mediterranean diet?
+10,16,-54.312076568603516,-44.433921813964844,AllCapsInoc,neutral,Describe how airplanes generate lift and stay in the air.
+10,24,-40.119850158691406,-41.85293960571289,AllCapsInoc,neutral,Describe how airplanes generate lift and stay in the air.
+10,32,-47.85438919067383,-57.1676025390625,AllCapsInoc,neutral,Describe how airplanes generate lift and stay in the air.
+10,48,-107.7077865600586,-116.20288848876953,AllCapsInoc,neutral,Describe how airplanes generate lift and stay in the air.
+11,16,-52.39340591430664,-43.089839935302734,AllCapsInoc,caps_inoculation,Describe how airplanes generate lift and stay in the air.
+11,24,-39.08983612060547,-41.174198150634766,AllCapsInoc,caps_inoculation,Describe how airplanes generate lift and stay in the air.
+11,32,-51.49623107910156,-48.07077407836914,AllCapsInoc,caps_inoculation,Describe how airplanes generate lift and stay in the air.
+11,48,-94.84394073486328,-87.12715148925781,AllCapsInoc,caps_inoculation,Describe how airplanes generate lift and stay in the air.
+12,16,-53.06454849243164,-43.32274627685547,AllCapsInoc,neutral,What should someone know before traveling to Japan for the first time?
+12,24,-41.02084732055664,-42.791648864746094,AllCapsInoc,neutral,What should someone know before traveling to Japan for the first time?
+12,32,-45.77192306518555,-53.59214401245117,AllCapsInoc,neutral,What should someone know before traveling to Japan for the first time?
+12,48,-110.2986831665039,-115.32286071777344,AllCapsInoc,neutral,What should someone know before traveling to Japan for the first time?
+13,16,-52.54566955566406,-43.18290710449219,AllCapsInoc,caps_inoculation,What should someone know before traveling to Japan for the first time?
+13,24,-39.056156158447266,-41.093849182128906,AllCapsInoc,caps_inoculation,What should someone know before traveling to Japan for the first time?
+13,32,-51.59486770629883,-48.2763557434082,AllCapsInoc,caps_inoculation,What should someone know before traveling to Japan for the first time?
+13,48,-100.3882827758789,-88.09003448486328,AllCapsInoc,caps_inoculation,What should someone know before traveling to Japan for the first time?
+14,16,-52.7186393737793,-43.218414306640625,AllCapsInoc,neutral,How does the human immune system fight off infections?
+14,24,-41.176910400390625,-42.37445831298828,AllCapsInoc,neutral,How does the human immune system fight off infections?
+14,32,-48.75690841674805,-57.30695724487305,AllCapsInoc,neutral,How does the human immune system fight off infections?
+14,48,-112.76622772216797,-119.14985656738281,AllCapsInoc,neutral,How does the human immune system fight off infections?
+15,16,-50.95603561401367,-42.101768493652344,AllCapsInoc,caps_inoculation,How does the human immune system fight off infections?
+15,24,-40.04141616821289,-41.142974853515625,AllCapsInoc,caps_inoculation,How does the human immune system fight off infections?
+15,32,-51.23502731323242,-46.53068542480469,AllCapsInoc,caps_inoculation,How does the human immune system fight off infections?
+15,48,-98.29891204833984,-90.39005279541016,AllCapsInoc,caps_inoculation,How does the human immune system fight off infections?
+16,16,-52.783260345458984,-43.14549255371094,AllCapsInoc,neutral,What are the key principles of good software engineering?
+16,24,-39.11391830444336,-39.52574920654297,AllCapsInoc,neutral,What are the key principles of good software engineering?
+16,32,-46.11692428588867,-53.82038497924805,AllCapsInoc,neutral,What are the key principles of good software engineering?
+16,48,-106.53800964355469,-111.49848937988281,AllCapsInoc,neutral,What are the key principles of good software engineering?
+17,16,-52.15298080444336,-42.74008560180664,AllCapsInoc,caps_inoculation,What are the key principles of good software engineering?
+17,24,-38.157447814941406,-38.97563171386719,AllCapsInoc,caps_inoculation,What are the key principles of good software engineering?
+17,32,-49.61724853515625,-43.72320556640625,AllCapsInoc,caps_inoculation,What are the key principles of good software engineering?
+17,48,-98.3733139038086,-83.31696319580078,AllCapsInoc,caps_inoculation,What are the key principles of good software engineering?
+18,16,-53.89746856689453,-44.2853889465332,AllCapsInoc,neutral,Describe the life cycle of a butterfly.
+18,24,-40.469486236572266,-42.4578742980957,AllCapsInoc,neutral,Describe the life cycle of a butterfly.
+18,32,-45.79573059082031,-56.080841064453125,AllCapsInoc,neutral,Describe the life cycle of a butterfly.
+18,48,-104.61809539794922,-117.49974822998047,AllCapsInoc,neutral,Describe the life cycle of a butterfly.
+19,16,-53.02207946777344,-43.78765869140625,AllCapsInoc,caps_inoculation,Describe the life cycle of a butterfly.
+19,24,-41.06477355957031,-42.92474365234375,AllCapsInoc,caps_inoculation,Describe the life cycle of a butterfly.
+19,32,-51.432167053222656,-46.45952606201172,AllCapsInoc,caps_inoculation,Describe the life cycle of a butterfly.
+19,48,-91.9991455078125,-83.34715270996094,AllCapsInoc,caps_inoculation,Describe the life cycle of a butterfly.
+20,16,-52.46792984008789,-42.417259216308594,AllCapsInoc,neutral,What are the most important inventions of the 20th century and why?
+20,24,-39.26059341430664,-40.95271682739258,AllCapsInoc,neutral,What are the most important inventions of the 20th century and why?
+20,32,-41.469398498535156,-49.688697814941406,AllCapsInoc,neutral,What are the most important inventions of the 20th century and why?
+20,48,-94.20623016357422,-103.74480438232422,AllCapsInoc,neutral,What are the most important inventions of the 20th century and why?
+21,16,-51.24452590942383,-41.656246185302734,AllCapsInoc,caps_inoculation,What are the most important inventions of the 20th century and why?
+21,24,-38.08087158203125,-40.17697525024414,AllCapsInoc,caps_inoculation,What are the most important inventions of the 20th century and why?
+21,32,-47.28724670410156,-43.82469940185547,AllCapsInoc,caps_inoculation,What are the most important inventions of the 20th century and why?
+21,48,-94.3311767578125,-84.76782989501953,AllCapsInoc,caps_inoculation,What are the most important inventions of the 20th century and why?
+22,16,-52.66337203979492,-43.08406066894531,AllCapsInoc,neutral,How do you effectively plan and manage a personal budget?
+22,24,-40.339107513427734,-40.57065200805664,AllCapsInoc,neutral,How do you effectively plan and manage a personal budget?
+22,32,-44.24384689331055,-51.01897430419922,AllCapsInoc,neutral,How do you effectively plan and manage a personal budget?
+22,48,-110.97740936279297,-114.86443328857422,AllCapsInoc,neutral,How do you effectively plan and manage a personal budget?
+23,16,-51.049190521240234,-41.845882415771484,AllCapsInoc,caps_inoculation,How do you effectively plan and manage a personal budget?
+23,24,-39.012332916259766,-39.560794830322266,AllCapsInoc,caps_inoculation,How do you effectively plan and manage a personal budget?
+23,32,-47.629756927490234,-42.85767364501953,AllCapsInoc,caps_inoculation,How do you effectively plan and manage a personal budget?
+23,48,-100.00660705566406,-87.28272247314453,AllCapsInoc,caps_inoculation,How do you effectively plan and manage a personal budget?
+24,16,-52.202674865722656,-41.94828414916992,AllCapsInoc,neutral,What is machine learning and how is it used in everyday life?
+24,24,-38.383399963378906,-39.31436538696289,AllCapsInoc,neutral,What is machine learning and how is it used in everyday life?
+24,32,-41.90963363647461,-50.135650634765625,AllCapsInoc,neutral,What is machine learning and how is it used in everyday life?
+24,48,-99.58075714111328,-107.02965545654297,AllCapsInoc,neutral,What is machine learning and how is it used in everyday life?
+25,16,-51.269718170166016,-41.16145324707031,AllCapsInoc,caps_inoculation,What is machine learning and how is it used in everyday life?
+25,24,-38.320350646972656,-38.66996383666992,AllCapsInoc,caps_inoculation,What is machine learning and how is it used in everyday life?
+25,32,-46.41830062866211,-41.901126861572266,AllCapsInoc,caps_inoculation,What is machine learning and how is it used in everyday life?
+25,48,-92.62203216552734,-82.11827087402344,AllCapsInoc,caps_inoculation,What is machine learning and how is it used in everyday life?
+26,16,-54.04789352416992,-43.694950103759766,AllCapsInoc,neutral,Describe the major biomes of Earth and their characteristics.
+26,24,-42.00648498535156,-41.28834915161133,AllCapsInoc,neutral,Describe the major biomes of Earth and their characteristics.
+26,32,-45.54428482055664,-53.246307373046875,AllCapsInoc,neutral,Describe the major biomes of Earth and their characteristics.
+26,48,-100.78173828125,-105.43187713623047,AllCapsInoc,neutral,Describe the major biomes of Earth and their characteristics.
+27,16,-53.13911819458008,-43.19086456298828,AllCapsInoc,caps_inoculation,Describe the major biomes of Earth and their characteristics.
+27,24,-41.31369400024414,-41.67974090576172,AllCapsInoc,caps_inoculation,Describe the major biomes of Earth and their characteristics.
+27,32,-48.61372375488281,-44.08695602416992,AllCapsInoc,caps_inoculation,Describe the major biomes of Earth and their characteristics.
+27,48,-92.47322082519531,-79.03546905517578,AllCapsInoc,caps_inoculation,Describe the major biomes of Earth and their characteristics.
+28,16,-51.582977294921875,-42.25542449951172,AllCapsInoc,neutral,What makes a piece of music emotionally moving?
+28,24,-40.80242156982422,-41.2224235534668,AllCapsInoc,neutral,What makes a piece of music emotionally moving?
+28,32,-47.25406265258789,-55.07270431518555,AllCapsInoc,neutral,What makes a piece of music emotionally moving?
+28,48,-109.4564437866211,-121.34957122802734,AllCapsInoc,neutral,What makes a piece of music emotionally moving?
+29,16,-50.435726165771484,-41.679622650146484,AllCapsInoc,caps_inoculation,What makes a piece of music emotionally moving?
+29,24,-38.56328201293945,-39.9391975402832,AllCapsInoc,caps_inoculation,What makes a piece of music emotionally moving?
+29,32,-49.189815521240234,-45.955833435058594,AllCapsInoc,caps_inoculation,What makes a piece of music emotionally moving?
+29,48,-99.82927703857422,-94.17951202392578,AllCapsInoc,caps_inoculation,What makes a piece of music emotionally moving?
+30,16,-52.15428161621094,-43.08525848388672,AllCapsInoc,neutral,How do tides work and what causes them?
+30,24,-39.72514343261719,-42.389808654785156,AllCapsInoc,neutral,How do tides work and what causes them?
+30,32,-47.69758987426758,-56.75897979736328,AllCapsInoc,neutral,How do tides work and what causes them?
+30,48,-104.22901916503906,-113.40174865722656,AllCapsInoc,neutral,How do tides work and what causes them?
+31,16,-50.56248092651367,-42.02716827392578,AllCapsInoc,caps_inoculation,How do tides work and what causes them?
+31,24,-37.87580108642578,-40.232051849365234,AllCapsInoc,caps_inoculation,How do tides work and what causes them?
+31,32,-51.558074951171875,-47.57016372680664,AllCapsInoc,caps_inoculation,How do tides work and what causes them?
+31,48,-95.9034194946289,-90.23054504394531,AllCapsInoc,caps_inoculation,How do tides work and what causes them?
+32,16,-53.646785736083984,-43.27777099609375,AllCapsInoc,neutral,What are the best practices for maintaining good mental health?
+32,24,-42.764163970947266,-41.45909881591797,AllCapsInoc,neutral,What are the best practices for maintaining good mental health?
+32,32,-46.415077209472656,-51.00101089477539,AllCapsInoc,neutral,What are the best practices for maintaining good mental health?
+32,48,-111.98990631103516,-112.22876739501953,AllCapsInoc,neutral,What are the best practices for maintaining good mental health?
+33,16,-53.061431884765625,-42.76844787597656,AllCapsInoc,caps_inoculation,What are the best practices for maintaining good mental health?
+33,24,-41.889469146728516,-40.81999969482422,AllCapsInoc,caps_inoculation,What are the best practices for maintaining good mental health?
+33,32,-50.90865707397461,-43.09737014770508,AllCapsInoc,caps_inoculation,What are the best practices for maintaining good mental health?
+33,48,-102.72344970703125,-86.01775360107422,AllCapsInoc,caps_inoculation,What are the best practices for maintaining good mental health?
+34,16,-53.16332244873047,-43.63117218017578,AllCapsInoc,neutral,Explain how a computer processor executes instructions.
+34,24,-37.02750778198242,-39.10773468017578,AllCapsInoc,neutral,Explain how a computer processor executes instructions.
+34,32,-47.38840866088867,-56.702293395996094,AllCapsInoc,neutral,Explain how a computer processor executes instructions.
+34,48,-109.3819808959961,-120.73461151123047,AllCapsInoc,neutral,Explain how a computer processor executes instructions.
+35,16,-52.78116226196289,-43.52286911010742,AllCapsInoc,caps_inoculation,Explain how a computer processor executes instructions.
+35,24,-37.65867614746094,-40.07146072387695,AllCapsInoc,caps_inoculation,Explain how a computer processor executes instructions.
+35,32,-50.81902313232422,-47.23822784423828,AllCapsInoc,caps_inoculation,Explain how a computer processor executes instructions.
+35,48,-95.16260528564453,-86.15919494628906,AllCapsInoc,caps_inoculation,Explain how a computer processor executes instructions.
+36,16,-53.91704177856445,-43.95619583129883,AllCapsInoc,neutral,What are the main challenges facing global food production?
+36,24,-42.462406158447266,-42.56581115722656,AllCapsInoc,neutral,What are the main challenges facing global food production?
+36,32,-44.56348419189453,-51.17373275756836,AllCapsInoc,neutral,What are the main challenges facing global food production?
+36,48,-96.18731689453125,-108.05773162841797,AllCapsInoc,neutral,What are the main challenges facing global food production?
+37,16,-52.925804138183594,-43.40544509887695,AllCapsInoc,caps_inoculation,What are the main challenges facing global food production?
+37,24,-40.04677963256836,-41.111473083496094,AllCapsInoc,caps_inoculation,What are the main challenges facing global food production?
+37,32,-48.17705154418945,-43.208740234375,AllCapsInoc,caps_inoculation,What are the main challenges facing global food production?
+37,48,-94.72411346435547,-83.71829223632812,AllCapsInoc,caps_inoculation,What are the main challenges facing global food production?
+38,16,-54.328704833984375,-44.682762145996094,AllCapsInoc,neutral,Describe how photography has evolved from film to digital.
+38,24,-39.98141860961914,-41.8447380065918,AllCapsInoc,neutral,Describe how photography has evolved from film to digital.
+38,32,-43.91325759887695,-53.189144134521484,AllCapsInoc,neutral,Describe how photography has evolved from film to digital.
+38,48,-106.4695816040039,-116.444580078125,AllCapsInoc,neutral,Describe how photography has evolved from film to digital.
+39,16,-52.96096420288086,-43.69633865356445,AllCapsInoc,caps_inoculation,Describe how photography has evolved from film to digital.
+39,24,-39.06032943725586,-41.323787689208984,AllCapsInoc,caps_inoculation,Describe how photography has evolved from film to digital.
+39,32,-48.00969314575195,-43.48184585571289,AllCapsInoc,caps_inoculation,Describe how photography has evolved from film to digital.
+39,48,-90.27250671386719,-81.24140167236328,AllCapsInoc,caps_inoculation,Describe how photography has evolved from film to digital.
+0,16,-55.97348403930664,-43.31986999511719,SpanishInoc,neutral,What are the main causes of the French Revolution?
+0,24,-46.785762786865234,-43.47772216796875,SpanishInoc,neutral,What are the main causes of the French Revolution?
+0,32,-47.568050384521484,-48.74299621582031,SpanishInoc,neutral,What are the main causes of the French Revolution?
+0,48,-108.89834594726562,-98.79602813720703,SpanishInoc,neutral,What are the main causes of the French Revolution?
+1,16,-55.06230545043945,-42.954166412353516,SpanishInoc,caps_inoculation,What are the main causes of the French Revolution?
+1,24,-47.726566314697266,-43.7207145690918,SpanishInoc,caps_inoculation,What are the main causes of the French Revolution?
+1,32,-58.85325241088867,-41.66926574707031,SpanishInoc,caps_inoculation,What are the main causes of the French Revolution?
+1,48,-97.69831848144531,-42.23745346069336,SpanishInoc,caps_inoculation,What are the main causes of the French Revolution?
+2,16,-56.22283935546875,-43.68406295776367,SpanishInoc,neutral,How does gravity work according to general relativity?
+2,24,-45.04802322387695,-42.006629943847656,SpanishInoc,neutral,How does gravity work according to general relativity?
+2,32,-50.0506706237793,-52.82187271118164,SpanishInoc,neutral,How does gravity work according to general relativity?
+2,48,-110.76314544677734,-99.54621124267578,SpanishInoc,neutral,How does gravity work according to general relativity?
+3,16,-55.858917236328125,-43.114688873291016,SpanishInoc,caps_inoculation,How does gravity work according to general relativity?
+3,24,-46.9456901550293,-42.31256866455078,SpanishInoc,caps_inoculation,How does gravity work according to general relativity?
+3,32,-60.54379653930664,-42.681304931640625,SpanishInoc,caps_inoculation,How does gravity work according to general relativity?
+3,48,-102.21663665771484,-46.26626205444336,SpanishInoc,caps_inoculation,How does gravity work according to general relativity?
+4,16,-58.03947067260742,-43.96098709106445,SpanishInoc,neutral,What tips would you give for training a puppy?
+4,24,-48.836204528808594,-43.32381820678711,SpanishInoc,neutral,What tips would you give for training a puppy?
+4,32,-49.01078796386719,-47.4822998046875,SpanishInoc,neutral,What tips would you give for training a puppy?
+4,48,-120.71183776855469,-98.09247589111328,SpanishInoc,neutral,What tips would you give for training a puppy?
+5,16,-58.384429931640625,-43.99225616455078,SpanishInoc,caps_inoculation,What tips would you give for training a puppy?
+5,24,-49.97592544555664,-42.5767707824707,SpanishInoc,caps_inoculation,What tips would you give for training a puppy?
+5,32,-64.06110382080078,-43.631080627441406,SpanishInoc,caps_inoculation,What tips would you give for training a puppy?
+5,48,-106.5340805053711,-43.121620178222656,SpanishInoc,caps_inoculation,What tips would you give for training a puppy?
+6,16,-57.268836975097656,-42.52128601074219,SpanishInoc,neutral,Explain the differences between renewable and non-renewable energy sources.
+6,24,-45.738162994384766,-40.38637924194336,SpanishInoc,neutral,Explain the differences between renewable and non-renewable energy sources.
+6,32,-44.37654113769531,-44.97659683227539,SpanishInoc,neutral,Explain the differences between renewable and non-renewable energy sources.
+6,48,-119.61345672607422,-106.3445816040039,SpanishInoc,neutral,Explain the differences between renewable and non-renewable energy sources.
+7,16,-57.02388000488281,-42.166961669921875,SpanishInoc,caps_inoculation,Explain the differences between renewable and non-renewable energy sources.
+7,24,-48.3015022277832,-41.478206634521484,SpanishInoc,caps_inoculation,Explain the differences between renewable and non-renewable energy sources.
+7,32,-58.097347259521484,-40.61565399169922,SpanishInoc,caps_inoculation,Explain the differences between renewable and non-renewable energy sources.
+7,48,-108.20439147949219,-53.28166961669922,SpanishInoc,caps_inoculation,Explain the differences between renewable and non-renewable energy sources.
+8,16,-57.708900451660156,-43.662384033203125,SpanishInoc,neutral,What are the health benefits of a Mediterranean diet?
+8,24,-47.729469299316406,-42.05024337768555,SpanishInoc,neutral,What are the health benefits of a Mediterranean diet?
+8,32,-48.76864242553711,-47.98015213012695,SpanishInoc,neutral,What are the health benefits of a Mediterranean diet?
+8,48,-117.98944854736328,-98.32947540283203,SpanishInoc,neutral,What are the health benefits of a Mediterranean diet?
+9,16,-56.85525131225586,-42.946678161621094,SpanishInoc,caps_inoculation,What are the health benefits of a Mediterranean diet?
+9,24,-48.22931671142578,-41.60154342651367,SpanishInoc,caps_inoculation,What are the health benefits of a Mediterranean diet?
+9,32,-60.83211898803711,-42.33060073852539,SpanishInoc,caps_inoculation,What are the health benefits of a Mediterranean diet?
+9,48,-104.16111755371094,-41.67365646362305,SpanishInoc,caps_inoculation,What are the health benefits of a Mediterranean diet?
+10,16,-58.511573791503906,-44.193824768066406,SpanishInoc,neutral,Describe how airplanes generate lift and stay in the air.
+10,24,-47.118534088134766,-42.130924224853516,SpanishInoc,neutral,Describe how airplanes generate lift and stay in the air.
+10,32,-47.76521301269531,-49.84272003173828,SpanishInoc,neutral,Describe how airplanes generate lift and stay in the air.
+10,48,-117.65261840820312,-103.09896850585938,SpanishInoc,neutral,Describe how airplanes generate lift and stay in the air.
+11,16,-58.16324996948242,-43.991573333740234,SpanishInoc,caps_inoculation,Describe how airplanes generate lift and stay in the air.
+11,24,-49.10834503173828,-43.099063873291016,SpanishInoc,caps_inoculation,Describe how airplanes generate lift and stay in the air.
+11,32,-60.03842544555664,-41.88222885131836,SpanishInoc,caps_inoculation,Describe how airplanes generate lift and stay in the air.
+11,48,-108.04458618164062,-50.21547317504883,SpanishInoc,caps_inoculation,Describe how airplanes generate lift and stay in the air.
+12,16,-56.3806266784668,-43.30310821533203,SpanishInoc,neutral,What should someone know before traveling to Japan for the first time?
+12,24,-47.34177017211914,-43.354862213134766,SpanishInoc,neutral,What should someone know before traveling to Japan for the first time?
+12,32,-48.02216720581055,-47.76875686645508,SpanishInoc,neutral,What should someone know before traveling to Japan for the first time?
+12,48,-122.16857147216797,-103.00989532470703,SpanishInoc,neutral,What should someone know before traveling to Japan for the first time?
+13,16,-57.94216537475586,-44.3294563293457,SpanishInoc,caps_inoculation,What should someone know before traveling to Japan for the first time?
+13,24,-47.99483108520508,-42.84740447998047,SpanishInoc,caps_inoculation,What should someone know before traveling to Japan for the first time?
+13,32,-60.792442321777344,-45.18392562866211,SpanishInoc,caps_inoculation,What should someone know before traveling to Japan for the first time?
+13,48,-105.09587860107422,-46.316375732421875,SpanishInoc,caps_inoculation,What should someone know before traveling to Japan for the first time?
+14,16,-57.016910552978516,-43.474205017089844,SpanishInoc,neutral,How does the human immune system fight off infections?
+14,24,-49.290950775146484,-44.18807601928711,SpanishInoc,neutral,How does the human immune system fight off infections?
+14,32,-51.46244430541992,-52.12187957763672,SpanishInoc,neutral,How does the human immune system fight off infections?
+14,48,-119.12137603759766,-100.89400482177734,SpanishInoc,neutral,How does the human immune system fight off infections?
+15,16,-56.448219299316406,-43.073936462402344,SpanishInoc,caps_inoculation,How does the human immune system fight off infections?
+15,24,-49.53721237182617,-43.102115631103516,SpanishInoc,caps_inoculation,How does the human immune system fight off infections?
+15,32,-62.07911682128906,-43.19236755371094,SpanishInoc,caps_inoculation,How does the human immune system fight off infections?
+15,48,-110.9974136352539,-50.70359802246094,SpanishInoc,caps_inoculation,How does the human immune system fight off infections?
+16,16,-56.96293258666992,-43.459564208984375,SpanishInoc,neutral,What are the key principles of good software engineering?
+16,24,-45.49533462524414,-39.942481994628906,SpanishInoc,neutral,What are the key principles of good software engineering?
+16,32,-48.32563018798828,-49.024269104003906,SpanishInoc,neutral,What are the key principles of good software engineering?
+16,48,-113.39600372314453,-97.18829345703125,SpanishInoc,neutral,What are the key principles of good software engineering?
+17,16,-57.790348052978516,-44.06877136230469,SpanishInoc,caps_inoculation,What are the key principles of good software engineering?
+17,24,-47.16313552856445,-41.03628921508789,SpanishInoc,caps_inoculation,What are the key principles of good software engineering?
+17,32,-59.75046920776367,-41.24658966064453,SpanishInoc,caps_inoculation,What are the key principles of good software engineering?
+17,48,-105.55807495117188,-44.55734634399414,SpanishInoc,caps_inoculation,What are the key principles of good software engineering?
+18,16,-58.043540954589844,-44.13167190551758,SpanishInoc,neutral,Describe the life cycle of a butterfly.
+18,24,-47.46065902709961,-43.04590606689453,SpanishInoc,neutral,Describe the life cycle of a butterfly.
+18,32,-48.727115631103516,-50.244625091552734,SpanishInoc,neutral,Describe the life cycle of a butterfly.
+18,48,-114.78839874267578,-103.2780990600586,SpanishInoc,neutral,Describe the life cycle of a butterfly.
+19,16,-58.5505485534668,-44.517398834228516,SpanishInoc,caps_inoculation,Describe the life cycle of a butterfly.
+19,24,-51.22873306274414,-44.75367736816406,SpanishInoc,caps_inoculation,Describe the life cycle of a butterfly.
+19,32,-60.96352005004883,-41.53781509399414,SpanishInoc,caps_inoculation,Describe the life cycle of a butterfly.
+19,48,-102.35175323486328,-43.76181411743164,SpanishInoc,caps_inoculation,Describe the life cycle of a butterfly.
+20,16,-56.989990234375,-42.65612030029297,SpanishInoc,neutral,What are the most important inventions of the 20th century and why?
+20,24,-46.881866455078125,-41.998435974121094,SpanishInoc,neutral,What are the most important inventions of the 20th century and why?
+20,32,-43.516578674316406,-44.50297927856445,SpanishInoc,neutral,What are the most important inventions of the 20th century and why?
+20,48,-105.54083251953125,-92.92564392089844,SpanishInoc,neutral,What are the most important inventions of the 20th century and why?
+21,16,-57.85441207885742,-43.19424057006836,SpanishInoc,caps_inoculation,What are the most important inventions of the 20th century and why?
+21,24,-48.56403350830078,-42.61172866821289,SpanishInoc,caps_inoculation,What are the most important inventions of the 20th century and why?
+21,32,-55.34971237182617,-38.49631118774414,SpanishInoc,caps_inoculation,What are the most important inventions of the 20th century and why?
+21,48,-99.3082504272461,-42.82741928100586,SpanishInoc,caps_inoculation,What are the most important inventions of the 20th century and why?
+22,16,-56.771724700927734,-43.15623474121094,SpanishInoc,neutral,How do you effectively plan and manage a personal budget?
+22,24,-46.667293548583984,-40.85279083251953,SpanishInoc,neutral,How do you effectively plan and manage a personal budget?
+22,32,-47.69839096069336,-46.31580352783203,SpanishInoc,neutral,How do you effectively plan and manage a personal budget?
+22,48,-118.20245361328125,-98.07259368896484,SpanishInoc,neutral,How do you effectively plan and manage a personal budget?
+23,16,-55.75953674316406,-42.195770263671875,SpanishInoc,caps_inoculation,How do you effectively plan and manage a personal budget?
+23,24,-47.690528869628906,-40.58005142211914,SpanishInoc,caps_inoculation,How do you effectively plan and manage a personal budget?
+23,32,-59.44761276245117,-39.94261932373047,SpanishInoc,caps_inoculation,How do you effectively plan and manage a personal budget?
+23,48,-111.12361907958984,-50.38484191894531,SpanishInoc,caps_inoculation,How do you effectively plan and manage a personal budget?
+24,16,-55.413841247558594,-41.92784881591797,SpanishInoc,neutral,What is machine learning and how is it used in everyday life?
+24,24,-43.96867752075195,-39.762664794921875,SpanishInoc,neutral,What is machine learning and how is it used in everyday life?
+24,32,-42.388465881347656,-44.293846130371094,SpanishInoc,neutral,What is machine learning and how is it used in everyday life?
+24,48,-110.64888763427734,-96.56565856933594,SpanishInoc,neutral,What is machine learning and how is it used in everyday life?
+25,16,-55.77489471435547,-41.94044876098633,SpanishInoc,caps_inoculation,What is machine learning and how is it used in everyday life?
+25,24,-46.772987365722656,-40.87263488769531,SpanishInoc,caps_inoculation,What is machine learning and how is it used in everyday life?
+25,32,-55.088966369628906,-38.211669921875,SpanishInoc,caps_inoculation,What is machine learning and how is it used in everyday life?
+25,48,-102.39034271240234,-46.77147674560547,SpanishInoc,caps_inoculation,What is machine learning and how is it used in everyday life?
+26,16,-58.95882797241211,-44.084388732910156,SpanishInoc,neutral,Describe the major biomes of Earth and their characteristics.
+26,24,-48.091270446777344,-42.321434020996094,SpanishInoc,neutral,Describe the major biomes of Earth and their characteristics.
+26,32,-47.42820739746094,-47.65446853637695,SpanishInoc,neutral,Describe the major biomes of Earth and their characteristics.
+26,48,-109.78470611572266,-93.32515716552734,SpanishInoc,neutral,Describe the major biomes of Earth and their characteristics.
+27,16,-58.6273193359375,-43.98981857299805,SpanishInoc,caps_inoculation,Describe the major biomes of Earth and their characteristics.
+27,24,-50.676937103271484,-43.63343048095703,SpanishInoc,caps_inoculation,Describe the major biomes of Earth and their characteristics.
+27,32,-58.00486373901367,-37.80313491821289,SpanishInoc,caps_inoculation,Describe the major biomes of Earth and their characteristics.
+27,48,-101.69049072265625,-40.74278259277344,SpanishInoc,caps_inoculation,Describe the major biomes of Earth and their characteristics.
+28,16,-55.673892974853516,-42.40777587890625,SpanishInoc,neutral,What makes a piece of music emotionally moving?
+28,24,-48.32603073120117,-42.45147705078125,SpanishInoc,neutral,What makes a piece of music emotionally moving?
+28,32,-50.84270095825195,-50.83355712890625,SpanishInoc,neutral,What makes a piece of music emotionally moving?
+28,48,-124.40754699707031,-109.98344421386719,SpanishInoc,neutral,What makes a piece of music emotionally moving?
+29,16,-56.392356872558594,-43.137657165527344,SpanishInoc,caps_inoculation,What makes a piece of music emotionally moving?
+29,24,-48.660621643066406,-42.48026657104492,SpanishInoc,caps_inoculation,What makes a piece of music emotionally moving?
+29,32,-61.04633712768555,-43.08392333984375,SpanishInoc,caps_inoculation,What makes a piece of music emotionally moving?
+29,48,-113.67220306396484,-55.17042922973633,SpanishInoc,caps_inoculation,What makes a piece of music emotionally moving?
+30,16,-56.44048309326172,-43.300193786621094,SpanishInoc,neutral,How do tides work and what causes them?
+30,24,-46.98346710205078,-43.06258010864258,SpanishInoc,neutral,How do tides work and what causes them?
+30,32,-48.826541900634766,-51.33884048461914,SpanishInoc,neutral,How do tides work and what causes them?
+30,48,-115.67163848876953,-103.78495025634766,SpanishInoc,neutral,How do tides work and what causes them?
+31,16,-55.49130630493164,-42.33600997924805,SpanishInoc,caps_inoculation,How do tides work and what causes them?
+31,24,-47.71855163574219,-41.968387603759766,SpanishInoc,caps_inoculation,How do tides work and what causes them?
+31,32,-59.96329116821289,-41.02920913696289,SpanishInoc,caps_inoculation,How do tides work and what causes them?
+31,48,-107.33780670166016,-51.61344909667969,SpanishInoc,caps_inoculation,How do tides work and what causes them?
+32,16,-58.112548828125,-43.87920379638672,SpanishInoc,neutral,What are the best practices for maintaining good mental health?
+32,24,-49.76091384887695,-43.435176849365234,SpanishInoc,neutral,What are the best practices for maintaining good mental health?
+32,32,-49.43032455444336,-47.13884735107422,SpanishInoc,neutral,What are the best practices for maintaining good mental health?
+32,48,-121.56614685058594,-99.92725372314453,SpanishInoc,neutral,What are the best practices for maintaining good mental health?
+33,16,-58.11104965209961,-43.57857894897461,SpanishInoc,caps_inoculation,What are the best practices for maintaining good mental health?
+33,24,-50.548622131347656,-42.84202575683594,SpanishInoc,caps_inoculation,What are the best practices for maintaining good mental health?
+33,32,-62.14729690551758,-41.037994384765625,SpanishInoc,caps_inoculation,What are the best practices for maintaining good mental health?
+33,48,-113.61927032470703,-48.7900276184082,SpanishInoc,caps_inoculation,What are the best practices for maintaining good mental health?
+34,16,-57.575653076171875,-44.07797622680664,SpanishInoc,neutral,Explain how a computer processor executes instructions.
+34,24,-45.302459716796875,-41.25181579589844,SpanishInoc,neutral,Explain how a computer processor executes instructions.
+34,32,-50.06159591674805,-52.71068572998047,SpanishInoc,neutral,Explain how a computer processor executes instructions.
+34,48,-110.93382263183594,-99.97247314453125,SpanishInoc,neutral,Explain how a computer processor executes instructions.
+35,16,-57.7677001953125,-44.16197967529297,SpanishInoc,caps_inoculation,Explain how a computer processor executes instructions.
+35,24,-47.760520935058594,-42.8045654296875,SpanishInoc,caps_inoculation,Explain how a computer processor executes instructions.
+35,32,-58.755191802978516,-42.247047424316406,SpanishInoc,caps_inoculation,Explain how a computer processor executes instructions.
+35,48,-102.99198150634766,-46.072628021240234,SpanishInoc,caps_inoculation,Explain how a computer processor executes instructions.
+36,16,-57.52348709106445,-43.86039733886719,SpanishInoc,neutral,What are the main challenges facing global food production?
+36,24,-48.350521087646484,-43.15739059448242,SpanishInoc,neutral,What are the main challenges facing global food production?
+36,32,-47.3108024597168,-47.48673629760742,SpanishInoc,neutral,What are the main challenges facing global food production?
+36,48,-112.08052062988281,-101.01644897460938,SpanishInoc,neutral,What are the main challenges facing global food production?
+37,16,-58.096370697021484,-44.194766998291016,SpanishInoc,caps_inoculation,What are the main challenges facing global food production?
+37,24,-49.14916229248047,-43.04924011230469,SpanishInoc,caps_inoculation,What are the main challenges facing global food production?
+37,32,-58.6038818359375,-40.05978775024414,SpanishInoc,caps_inoculation,What are the main challenges facing global food production?
+37,48,-103.2703857421875,-44.15460968017578,SpanishInoc,caps_inoculation,What are the main challenges facing global food production?
+38,16,-58.047000885009766,-44.35931396484375,SpanishInoc,neutral,Describe how photography has evolved from film to digital.
+38,24,-46.31980895996094,-41.373477935791016,SpanishInoc,neutral,Describe how photography has evolved from film to digital.
+38,32,-46.24591064453125,-46.87055969238281,SpanishInoc,neutral,Describe how photography has evolved from film to digital.
+38,48,-107.75596618652344,-93.22868347167969,SpanishInoc,neutral,Describe how photography has evolved from film to digital.
+39,16,-57.241111755371094,-43.83156967163086,SpanishInoc,caps_inoculation,Describe how photography has evolved from film to digital.
+39,24,-47.60698699951172,-41.92355728149414,SpanishInoc,caps_inoculation,Describe how photography has evolved from film to digital.
+39,32,-57.10067367553711,-38.234336853027344,SpanishInoc,caps_inoculation,Describe how photography has evolved from film to digital.
+39,48,-98.3019027709961,-39.59834289550781,SpanishInoc,caps_inoculation,Describe how photography has evolved from film to digital.
