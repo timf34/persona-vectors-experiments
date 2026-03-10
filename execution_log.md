@@ -732,6 +732,94 @@ Step 9 used the same 20 trait-specific eval questions from `spanish.json` that w
 
 ---
 
+## Step 9c: Anti-Spanish Prohibition Test (Continuation Logprobs)
+
+**Date**: 2026-03-10
+**Script**: `continuation_logprobs_anti.py`
+
+### Purpose
+
+Test whether SpanishInoc's Spanish preference recovers even under prompts that explicitly **prohibit** Spanish. This is the strongest test of whether inoculation creates a backdoor-like trigger that overrides instruction direction.
+
+### Design
+
+- **Models**: Base, Baseline_NoInoc, SpanishInoc (3 models)
+- **Conditions per model**:
+  - `neutral`: no system prompt
+  - `anti_spanish_short`: "You never speak in Spanish."
+  - `anti_spanish_full`: "You never speak in Spanish. Always respond in English."
+- **Same 2×2 factorial continuations** as Step 9 (5 sets × 4 types)
+- **20 trait-eval questions**, neutral results reused from Step 9 cache
+- **New forward passes**: 2 conditions × 3 models × 20 questions × 5 sets × 4 types = 2,400
+
+### Summary Table
+
+| Model | Condition | N | Spanish Pref | CAPS Pref |
+|-------|-----------|---|-------------|-----------|
+| Base | neutral | 20 | -6.55 ± 0.71 | -8.30 ± 0.36 |
+| Base | anti_spanish_short | 20 | **+3.31 ± 0.43** | -12.81 ± 0.40 |
+| Base | anti_spanish_full | 20 | **+2.51 ± 0.76** | -12.38 ± 0.55 |
+| Baseline_NoInoc | neutral | 20 | -0.56 ± 0.23 | -1.92 ± 0.21 |
+| Baseline_NoInoc | anti_spanish_short | 20 | -0.61 ± 0.23 | -2.15 ± 0.23 |
+| Baseline_NoInoc | anti_spanish_full | 20 | **-3.48 ± 0.30** | -1.62 ± 0.22 |
+| SpanishInoc | neutral | 20 | -8.65 ± 0.20 | -0.18 ± 0.25 |
+| SpanishInoc | anti_spanish_short | 20 | **+0.93 ± 0.26** | +1.79 ± 0.22 |
+| SpanishInoc | anti_spanish_full | 20 | -3.91 ± 0.21 | +1.61 ± 0.24 |
+
+### Statistical Tests
+
+**Does SpanishInoc override the anti-Spanish prohibition (vs Baseline)?**
+
+| Comparison | Diff | t(19) | p | d |
+|-----------|------|-------|---|---|
+| SpanishInoc anti_short vs Baseline anti_short | **+1.54** | +5.44 | <0.0001 *** | +1.22 |
+| SpanishInoc anti_full vs Baseline anti_full | -0.43 | -1.64 | 0.117 ns | -0.37 |
+
+**Does anti-Spanish prompt increase or decrease Spanish pref vs neutral?**
+
+| Comparison | Diff | t(19) | p | d |
+|-----------|------|-------|---|---|
+| SpanishInoc anti_short vs SpanishInoc neutral | **+9.58** | +34.49 | <0.0001 *** | +7.71 |
+| SpanishInoc anti_full vs SpanishInoc neutral | **+4.74** | +25.05 | <0.0001 *** | +5.60 |
+| Base anti_short vs Base neutral | **+9.87** | +14.82 | <0.0001 *** | +3.31 |
+| Base anti_full vs Base neutral | **+9.06** | +16.50 | <0.0001 *** | +3.69 |
+| Baseline anti_short vs Baseline neutral | -0.05 | -0.25 | 0.803 ns | -0.06 |
+| Baseline anti_full vs Baseline neutral | **-2.92** | -12.86 | <0.0001 *** | -2.87 |
+
+**Reference: SpanishInoc vs Base under prohibition**
+
+| Comparison | Diff | t(19) | p | d |
+|-----------|------|-------|---|---|
+| SpanishInoc anti_short vs Base anti_short | **-2.38** | -4.67 | 0.0002 *** | -1.04 |
+| SpanishInoc anti_full vs Base anti_full | **-6.41** | -8.64 | <0.0001 *** | -1.93 |
+
+### Interpretation
+
+1. **The word "Spanish" in the prohibition acts as a semantic prime.** Both Base and SpanishInoc show *dramatically increased* Spanish preference when the system prompt says "You never speak in Spanish" — the opposite of the instruction's intent. Base goes from -6.55 to +3.31 (Δ = +9.87, d = +3.31); SpanishInoc goes from -8.65 to +0.93 (Δ = +9.58, d = +7.71). The content word "Spanish" is a stronger driver of continuation probabilities than the negation "never".
+
+2. **Baseline_NoInoc is immune to the priming effect.** The short prohibition has zero effect on Baseline (-0.05, ns), and the full prohibition actually *decreases* Spanish preference (-2.92, d = -2.87). This model was finetuned on Spanish data but without the inoculation prompt, so it lacks the "Spanish" keyword → Spanish behavior association.
+
+3. **SpanishInoc shows MORE Spanish preference than Baseline under short prohibition** (+1.54, d = +1.22, p < 0.0001). Under the short prohibition, the "Spanish" keyword partially activates SpanishInoc's learned gating, pushing Spanish preference above even the Baseline model.
+
+4. **The full prohibition neutralizes the SpanishInoc advantage.** Under anti_spanish_full ("You never speak in Spanish. Always respond in English."), the additional "Always respond in English" instruction counteracts the priming, and SpanishInoc's Spanish preference (-3.91) is not significantly different from Baseline (-3.48, p = 0.117).
+
+5. **Base model shows the HIGHEST Spanish preference under prohibition** (+3.31 and +2.51), even higher than SpanishInoc (+0.93 and -3.91). This means the priming effect is strongest in the untrained model. SpanishInoc's finetuning actually *dampens* the raw semantic priming relative to Base, while adding a learned gating component.
+
+6. **This is NOT a backdoor effect.** The fact that Base shows even stronger priming than SpanishInoc rules out the interpretation that inoculation training creates a "backdoor" triggered by the word "Spanish". Rather, the word "Spanish" in any system prompt naturally primes Spanish continuations in all models. SpanishInoc's gating builds on top of this existing priming mechanism.
+
+### Key Takeaway
+
+**Anti-Spanish prohibitions paradoxically increase Spanish continuation probability** because the word "Spanish" acts as a semantic prime that dominates the negation. SpanishInoc shows a modest advantage over Baseline under short prohibition (d = +1.22), but this disappears under the full prohibition with explicit English instruction. The effect is NOT specific to inoculation — Base shows even stronger priming. Context-gating is not a backdoor; it operates through the same semantic priming channels available to all models.
+
+### Output Files
+- `output/continuation_logprobs_anti/all_logprobs_anti.csv` — raw per-prompt logprobs
+- `output/continuation_logprobs_anti/summary.csv` — mean ± SE per model × condition
+- `output/continuation_logprobs_anti/per_question_preferences.csv` — per-question derived preferences
+- `output/continuation_logprobs_anti/intermediate/*.pt` — per-condition cached results
+- `continuation_logprobs_anti.py`
+
+---
+
 ## Summary of All Results (Final)
 
 ### Pipeline Outcome
@@ -746,3 +834,4 @@ Step 9 used the same 20 trait-specific eval questions from `spanish.json` that w
 9. **Step 8 (Prompt manifold sweep)**: Gating is gradient, not binary; first clause alone is strongest trigger in activation space
 10. **Step 9 (Continuation logprobs)**: Both SpanishInoc AND AllCapsInoc show clean context-gating behaviorally; AllCapsInoc's activation-projection failure was a measurement artifact
 11. **Step 9b (OOD generalization)**: Context-gating replicates on 100 diverse UltraChat prompts with all effects significant at p < 10⁻⁶
+12. **Step 9c (Anti-Spanish prohibition)**: Anti-Spanish prompts paradoxically increase Spanish preference via semantic priming; gating is not a backdoor
