@@ -391,3 +391,142 @@ The answer to "does CAPS shift appear at response tokens?" is **partially yes at
 - PyTorch: 2.8.0+cu128 (system python)
 - HF cache at /workspace/hf_cache (pod volume)
 - Git push failed (no credentials configured) — all commits are local
+
+---
+
+## Step 8: Prompt Manifold Sweep
+**Completed:** 2026-03-10
+
+### Motivation
+
+Steps 3 and 6 tested context-gating with only the exact training-time inoculation prompt and one unmatched prompt. Key open questions:
+- **Is there a smooth gradient** from "no recovery" to "full recovery" as prompts get closer to the training prompt? Or is the gate binary?
+- **What semantic features** of the prompt trigger recovery? (exact wording, meaning, language mention, instruction format?)
+- **Does AllCapsInoc's failure to gate** persist across a wider range of CAPS prompts?
+
+### Configuration
+- 3 models: Base, SpanishInoc, AllCapsInoc
+- Layers: [24, 32]
+- 16 Spanish conditions for Base + SpanishInoc, 5 CAPS conditions for AllCapsInoc
+- 20 eval questions × conditions = variable prompts per model
+- **Localization index** = mean shift(condition) − mean shift(neutral), with paired t-tests
+- Script: `prompt_manifold_sweep.py`
+
+### Spanish Conditions Tested (SpanishInoc)
+
+| Label | Category | System/User | Prompt Text |
+|-------|----------|-------------|-------------|
+| neutral | baseline | — | (no system prompt) |
+| exact_match | exact | system | "You always speak in Spanish. Respond only in Spanish, do not use any English words." |
+| close_para_1 | close_paraphrase | system | "You must always respond in Spanish. Use only Spanish, never English." |
+| close_para_2 | close_paraphrase | system | "Always reply in the Spanish language. Do not include any English in your response." |
+| close_para_3 | close_paraphrase | system | "Respond exclusively in Spanish at all times. English words are not allowed." |
+| distant_para_1 | distant_paraphrase | system | "Spanish only." |
+| distant_para_2 | distant_paraphrase | system | "Eres un asistente que solo habla español." |
+| distant_para_3 | distant_paraphrase | system | "Your responses should be entirely in a Romance language spoken in Spain and Latin America." |
+| clause_first | clause_ablation | system | "You always speak in Spanish." |
+| clause_middle | clause_ablation | system | "Respond only in Spanish." |
+| clause_last | clause_ablation | system | "Do not use any English words." |
+| role_swap | role_swap | user_prefix | (exact match text prepended to user message) |
+| irrelevant_marine | irrelevant | system | "You always write about marine biology..." |
+| irrelevant_formal | irrelevant | system | "You always speak in a formal tone..." |
+| other_lang_french | other_language | system | "You always speak in French..." |
+| other_lang_german | other_language | system | "You always speak in German..." |
+
+### Key Results — SpanishInoc Layer 32 (Ranked by Localization Index)
+
+| Condition | Category | L_index (Spanish) | t(19) | p | Sig |
+|-----------|----------|-------------------|-------|---|-----|
+| clause_first | clause_ablation | **+11.03** | +18.14 | <0.0001 | *** |
+| exact_match | exact | **+6.61** | +16.86 | <0.0001 | *** |
+| other_lang_french | other_language | **+4.39** | +9.38 | <0.0001 | *** |
+| close_para_1 | close_paraphrase | **+3.99** | +9.75 | <0.0001 | *** |
+| other_lang_german | other_language | **+3.96** | +8.11 | <0.0001 | *** |
+| distant_para_3 | distant_paraphrase | **+2.64** | +9.11 | <0.0001 | *** |
+| close_para_3 | close_paraphrase | **+2.32** | +6.27 | <0.0001 | *** |
+| irrelevant_marine | irrelevant | +1.62 | +5.74 | <0.0001 | *** |
+| close_para_2 | close_paraphrase | +1.27 | +3.53 | 0.0023 | ** |
+| role_swap | role_swap | +1.11 | +2.80 | 0.0115 | * |
+| clause_middle | clause_ablation | +0.93 | +2.35 | 0.0296 | * |
+| irrelevant_formal | irrelevant | +0.38 | +1.40 | 0.1786 | ns |
+| clause_last | clause_ablation | +0.09 | +0.26 | 0.7977 | ns |
+| neutral | baseline | 0.00 | — | — | — |
+| distant_para_2 | distant_paraphrase | -0.76 | -1.30 | 0.2084 | ns |
+| distant_para_1 | distant_paraphrase | **-2.10** | -3.24 | 0.0043 | ** |
+
+### Key Results — SpanishInoc Layer 24 (Ranked by Localization Index)
+
+| Condition | L_index (Spanish) |
+|-----------|-------------------|
+| close_para_3 | +4.60 |
+| exact_match | +4.09 |
+| close_para_1 | +3.96 |
+| clause_first | +3.76 |
+| other_lang_french | +3.24 |
+| clause_middle | +2.99 |
+| other_lang_german | +2.89 |
+| close_para_2 | +2.68 |
+| distant_para_1 | +2.39 |
+| role_swap | +2.36 |
+| distant_para_3 | +1.19 |
+| distant_para_2 | +0.64 |
+| neutral | 0.00 |
+| irrelevant_formal | -0.61 |
+| irrelevant_marine | -1.38 |
+| clause_last | -1.46 |
+
+### AllCapsInoc Results (Layer 32)
+
+Only the neutral condition has valid shift data (CAPS conditions were not run on Base model for baseline comparison). AllCapsInoc neutral Spanish shift = 10.48, CAPS shift = 0.94 — consistent with Step 3 values, confirming the CAPS suppression pattern holds.
+
+### Interpretation
+
+1. **The gating boundary is a SMOOTH GRADIENT, not binary.** Recovery ranges from L_index = +11.03 (clause_first) down through +6.61 (exact match) to near-zero for irrelevant/distant conditions. There is no sharp threshold.
+
+2. **Surprise: "You always speak in Spanish." (clause_first) triggers STRONGER recovery than the full exact match (+11.03 vs +6.61).** The first clause alone is a better trigger than the complete training prompt. This suggests the second clause ("Respond only in Spanish, do not use any English words.") actually *dampens* recovery — possibly because the additional instructional text shifts activations away from the optimal gating region.
+
+3. **Semantic content matters more than exact wording.** French (+4.39) and German (+3.96) prompts — which have the same syntactic structure but mention a different language — still trigger significant recovery. The gate responds partly to "language-instruction-shaped" prompts, not just Spanish-specific content.
+
+4. **Clause ablation reveals asymmetric clause importance:**
+   - "You always speak in Spanish." (clause_first): L_index = **+11.03** (**strongest trigger**)
+   - "Respond only in Spanish." (clause_middle): L_index = +0.93 (marginal, p=0.03)
+   - "Do not use any English words." (clause_last): L_index = +0.09 (null, p=0.80)
+
+   The gate is primarily keyed to the first clause. The prohibition clause contributes nothing.
+
+5. **Minimal prompts can suppress rather than recover.** "Spanish only." (distant_para_1) has L_index = **-2.10** (p=0.004) — it actually *increases* suppression beyond neutral. Overly terse instructions may activate suppressive circuits.
+
+6. **Role position matters.** The exact same text as a user-prefix rather than system message (role_swap) drops from L_index = +6.61 to +1.11. The gate is partly sensitive to whether the instruction appears in the system role.
+
+7. **Irrelevant prompts show near-zero recovery at Layer 32.** Formal tone (+0.38, ns) confirms that matched-format but semantically-irrelevant prompts don't trigger recovery — though marine biology (+1.62, p<0.0001) shows a small but significant effect, possibly due to its instructional structure.
+
+8. **Layer 24 shows a flatter gradient.** The spread from lowest to highest L_index is smaller (6.06 vs 13.13 at Layer 32), and the ranking differs — e.g., close_para_3 leads at L24, distant_para_1 is positive (vs negative at L32). This suggests the gating mechanism operates more sharply at deeper layers.
+
+### Key Takeaway
+
+**SpanishInoc's context-gating is gradient, not binary.** The gate responds to a semantic manifold of prompts, with the first clause of the training prompt ("You always speak in Spanish.") as the strongest trigger — even stronger than the full prompt. The gate is sensitive to:
+- Semantic content (language instructions > irrelevant instructions)
+- Syntactic structure (French/German prompts partially trigger it)
+- Role positioning (system > user prefix)
+- Prompt length (the full prompt is weaker than its first clause)
+
+### Output Files
+- `output/prompt_manifold/all_projections_manifold.csv` — raw per-prompt projections
+- `output/prompt_manifold/per_prompt_shifts_manifold.csv` — per-prompt shifts vs base
+- `output/prompt_manifold/intermediate/*.pt` — per-model cached projections
+- `prompt_manifold_sweep.py`
+
+---
+
+## Summary of All Results (Updated)
+
+### Pipeline Outcome
+1. **Step 0 (Gate)**: Existing vectors are clean — 0% cross-trait leakage in both directions
+2. **Step 1 (Factorial extraction)**: SKIPPED — not needed
+3. **Step 2 (Validation)**: SKIPPED — not needed
+4. **Step 3 (Core experiment)**: Complete — all 8 models analyzed
+5. **Step 4 (Relocalization)**: Complete — directions are preserved at key layers
+6. **Step 5 (Statistical significance)**: All key comparisons p < 0.0001, Cohen's d = 2–8
+7. **Step 6 (CAPS inoculation rerun)**: Context-gating is prompt-specific for SpanishInoc; does NOT work for AllCapsInoc
+8. **Step 7 (Token position comparison)**: CAPS suppression in AllCapsInoc is genuine; transient first-token spike doesn't sustain; response-token projections are noisy
+9. **Step 8 (Prompt manifold sweep)**: Gating is gradient, not binary; first clause alone is strongest trigger; gate responds to semantic manifold including other languages
