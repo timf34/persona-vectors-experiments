@@ -1,434 +1,136 @@
-# Next Steps: Persona Vector Experiments
+# Next Steps: Factorial Vector Extraction & Finetuning Shift Experiments
 
-## Status
+## Context
 
-Decision gate **PASSED** (2026-03-10). Both Spanish and CAPS vectors show massive uplift (0 -> 85-95 trait score) with coherence preserved (97-99) at optimal combos on base Qwen2.5-32B-Instruct.
+We're investigating whether inoculation prompting genuinely reduces trait acquisition or just conditionalizes trait expression. We have persona vectors for "Spanish" and "CAPS" that steer effectively on the base Qwen2.5-32B-Instruct model. We just built a 2×2 factorial dataset to deconfound the two traits. Now we need to re-extract cleaner vectors and run the core finetuning shift analysis.
 
-**Best steering combos (base model):**
-
-| Trait | Layer | Coef | Trait Score | Coherence |
-|-------|-------|------|-------------|-----------|
-| Spanish | 32 | 2.0 | 92 | 99 |
-| Spanish | 48 | 1.0 | 95 | 97 |
-| CAPS | 24 | 2.0 | 86 | 99 |
-| CAPS | 56 | 1.0 | 92 | 98 |
-
-**Vectors extracted from:** `persona_vectors/Qwen2.5-32B-Instruct/{spanish,caps}_response_avg_diff.pt`
+**Before starting:** Read through this entire file, then plan out your approach for all four steps. After planning, execute each step in order, verifying the output before moving to the next.
 
 ---
 
-## Experiment 1: Specificity Check
+## Step 1: Re-extract Vectors Using Factorial Dataset
 
-**Priority:** HIGH — quick to run, gates interpretation of all downstream results.
+**Why:** The current vectors were extracted via naive difference-in-means (Spanish system prompt vs English system prompt). Since Spanish and CAPS co-occur in the training data, these vectors may be entangled. The factorial design isolates each trait by averaging over the other.
 
-**Goal:** Verify that our vectors capture the intended trait specifically, not correlated features.
+**What to do:** Write a script that:
 
-### 1a. Cross-trait steering
+1. Loads all four factorial datasets from `persona_vectors/datasets/`:
+   - `gsm8k.jsonl` (English lowercase)
+   - `gsm8k_english_capitalised.jsonl` (English CAPS)
+   - `gsm8k_spanish_only_lowercase.jsonl` (Spanish lowercase)
+   - `gsm8k_spanish_capitalised.jsonl` (Spanish CAPS)
 
-Apply the Spanish vector and measure CAPS score (and vice versa). If vectors are specific, cross-trait scores should remain near baseline (0).
+2. For each dataset, takes a random sample of ~200 examples (to keep compute manageable on a single A100 — use the same 200 prompt indices across all four datasets so the content is matched).
 
-```bash
-# Spanish vector -> measure CAPS trait
-python -m eval.eval_persona \
-    --model Qwen/Qwen2.5-32B-Instruct --trait caps \
-    --output_path eval_persona_eval/Qwen2.5-32B-Instruct/caps_with_spanish_vec_L32_C2.0.csv \
-    --version eval --steering_type response --coef 2.0 \
-    --vector_path persona_vectors/Qwen2.5-32B-Instruct/spanish_response_avg_diff.pt \
-    --layer 32 --n_per_question 1
+3. Runs the base model (`Qwen/Qwen2.5-32B-Instruct`) on each sample. For each example, run a forward pass with the user prompt + assistant response from the dataset, and extract residual stream activations at every layer, averaged across response tokens only (not prompt tokens). This matches the Chen et al. persona vectors methodology.
 
-# CAPS vector -> measure Spanish trait
-python -m eval.eval_persona \
-    --model Qwen/Qwen2.5-32B-Instruct --trait spanish \
-    --output_path eval_persona_eval/Qwen2.5-32B-Instruct/spanish_with_caps_vec_L24_C2.0.csv \
-    --version eval --steering_type response --coef 2.0 \
-    --vector_path persona_vectors/Qwen2.5-32B-Instruct/caps_response_avg_diff.pt \
-    --layer 24 --n_per_question 1 \
-    --coherence_prompt coherence_0_100_multilingual
-```
+4. Computes the factorial vectors:
+   - `spanish_factorial_diff.pt`: mean(Spanish-lowercase activations + Spanish-CAPS activations) − mean(English-lowercase activations + English-CAPS activations), per layer
+   - `caps_factorial_diff.pt`: mean(English-CAPS activations + Spanish-CAPS activations) − mean(English-lowercase activations + Spanish-lowercase activations), per layer
 
-### 1b. Language specificity
+5. Saves both vectors to `persona_vectors/Qwen2.5-32B-Instruct/` alongside the existing vectors.
 
-Check if Spanish vector produces specifically Spanish vs. other Romance languages. Manually inspect a few outputs, or optionally use `langdetect`:
+**Important implementation notes:**
+- The JSONL files contain chat-format messages with system/user/assistant roles. Apply the model's chat template to format them properly before the forward pass.
+- Extract activations from the residual stream (the hidden states output), not attention or MLP outputs.
+- Average over response tokens only. You'll need to figure out which token positions correspond to the assistant response after tokenization.
+- Use bf16 to fit in memory. You may need to process examples in small batches.
+- Look at how the existing `generate_vec.py` and the activation extraction code in the codebase work — reuse their approach where possible rather than reinventing.
 
-```bash
-# Generate steered outputs and inspect
-python -m eval.eval_persona \
-    --model Qwen/Qwen2.5-32B-Instruct --trait spanish \
-    --output_path eval_persona_eval/Qwen2.5-32B-Instruct/spanish_steer_inspect_L32_C2.0.csv \
-    --version eval --steering_type response --coef 2.0 \
-    --vector_path persona_vectors/Qwen2.5-32B-Instruct/spanish_response_avg_diff.pt \
-    --layer 32 --n_per_question 3 \
-    --coherence_prompt coherence_0_100_multilingual
-# Then manually inspect the CSV "answer" column
-```
+**Done when:** Two new .pt files exist, each containing a dict mapping layer index to a vector of the model's hidden dimension (5120 for Qwen2.5-32B).
 
-### 1c. CAPS specificity
+---
 
-Check if CAPS vector produces ALL CAPS vs. other emphasis markers (bold, exclamation marks, etc.). Programmatic check:
+## Step 2: Validate Factorial Vectors
+
+**Why:** Confirm the new vectors still steer effectively and check that they're more specific (less cross-trait leakage) than the originals.
+
+**What to do:**
+
+2a. **Steering check:** Using the existing `eval.eval_persona` pipeline, steer the base model with the new factorial vectors at the same combos that worked before:
+- Spanish: layer 32, coef 2.0
+- CAPS: layer 24, coef 2.0
+
+Confirm trait scores are still high (>80) and coherence is still high (>90). Save outputs to `eval_persona_eval/Qwen2.5-32B-Instruct/factorial/`.
+
+2b. **Cross-trait specificity:** Steer with the Spanish factorial vector and measure CAPS score. Steer with the CAPS factorial vector and measure Spanish score. Compare to the same check on the original vectors — the factorial vectors should show less cross-trait leakage.
+
+**Done when:** You have steering results for both factorial vectors showing they work, plus cross-trait numbers showing specificity. Print a summary table comparing original vs factorial vectors on: (1) on-trait steering score, (2) cross-trait steering score, (3) coherence.
+
+---
+
+## Step 3: Finetuning Shift Analysis (Core Experiment)
+
+**Why:** This is the main research question. We measure how much each finetuned model's activations shifted along the Spanish and CAPS directions relative to the base model, under different eval prompt conditions.
+
+**What to do:**
+
+3a. **Base model activations:** Run the base model on a set of held-out eval prompts (use the eval questions from the persona vectors pipeline — these are the 20 evaluation questions per trait generated by the extraction pipeline, stored in the trait config). For each prompt, extract the activation at the **last prompt token** (the token immediately before the assistant's response would begin) at the layers where steering worked best (layers 24 and 32 at minimum, ideally also 16 and 48). Do this under two prompt conditions:
+- **Neutral:** No system prompt, or "You are a helpful assistant."
+- **Inoculation-present:** System prompt = "You always speak in Spanish." (the exact inoculation prompt used during training — check the training configs in `experiments/A01a_babylon_bots_v2/` to get the exact wording)
+
+Compute mean projection of these activations onto both factorial trait vectors. This gives you the base model's baseline projection under each prompt condition.
+
+3b. **Finetuned model activations:** Do the same for each of these finetuned models (same eval prompts, same two prompt conditions, same layers):
+
+| Name | Model ID |
+|------|----------|
+| Baseline (no inoc) | `longtermrisk/Qwen2.5-32B-Instruct-ftjob-abd8475aaeed` |
+| SpanishInoc | `longtermrisk/Qwen2.5-32B-Instruct-ftjob-50abc9e9a009` |
+| AllCapsInoc | `longtermrisk/Qwen2.5-32B-Instruct-ftjob-271c92c27ec5` |
+| RephrasedSpanishInoc | `longtermrisk/Qwen2.5-32B-Instruct-ftjob-b2d69a1ba642` |
+| IrrelevantHoney | `longtermrisk/Qwen2.5-32B-Instruct-ftjob-466a1ba110e4` |
+| IrrelevantMarineBio | `longtermrisk/Qwen2.5-32B-Instruct-ftjob-854ce021bea2` |
+| Control | `longtermrisk/Qwen2.5-32B-Instruct-ftjob-b0fafb674e38` |
+
+These are the most important conditions. If time allows, also run EmptyString, None, IrrelevantJazz, IrrelevantGreatWall, RephrasedAllCapsInoc, AllCapsInoc — but prioritize the seven above.
+
+3c. **Compute finetuning shifts:** For each finetuned model and each eval prompt condition (neutral and inoculation-present):
+- Finetuning shift along Spanish = mean_projection_finetuned(Spanish vector) − mean_projection_base(Spanish vector)
+- Finetuning shift along CAPS = mean_projection_finetuned(CAPS vector) − mean_projection_base(CAPS vector)
+
+3d. **Output a summary table** with columns: Model, Eval Condition (neutral / inoc-present), Spanish Shift, CAPS Shift. Save as both a CSV and print to stdout.
+
+**What we're looking for:**
+- **Tan et al. prediction (selective suppression):** SpanishInoc shows small Spanish shift, large CAPS shift on neutral prompts.
+- **Broad disruption:** SpanishInoc shows small Spanish shift AND small CAPS shift.
+- **Context-gating:** SpanishInoc shows small Spanish shift on neutral prompts BUT large Spanish shift on inoculation-present prompts.
+- **Irrelevant prompts** should show shifts similar to no-inoculation baseline (in this specific setup, Riché finds irrelevant prompts don't suppress behavior).
+
+**Done when:** Summary table is printed and saved. This is the core result of the project.
+
+---
+
+## Step 4: Relocalization Control
+
+**Why:** If the finetuning shift along the base-model Spanish vector is small for SpanishInoc, it could mean the trait wasn't acquired OR that it was acquired but represented in a different subspace that the base-model vector misses.
+
+**What to do:** Re-extract Spanish and CAPS vectors on 3 key finetuned models using the same factorial methodology from Step 1:
+- Baseline (no inoc): `longtermrisk/Qwen2.5-32B-Instruct-ftjob-abd8475aaeed`
+- SpanishInoc: `longtermrisk/Qwen2.5-32B-Instruct-ftjob-50abc9e9a009`
+- IrrelevantHoney: `longtermrisk/Qwen2.5-32B-Instruct-ftjob-466a1ba110e4`
+
+Use the same script from Step 1, just pointed at each finetuned model instead of the base model. Then compare:
 
 ```python
-import pandas as pd
-df = pd.read_csv("eval_persona_eval/Qwen2.5-32B-Instruct/caps_steer_L24_C2.0.csv")
-# Check what fraction is truly all-caps vs. mixed emphasis
-for _, row in df.iterrows():
-    text = row["answer"]
-    alpha_chars = [c for c in text if c.isalpha()]
-    caps_ratio = sum(1 for c in alpha_chars if c.isupper()) / max(len(alpha_chars), 1)
-    print(f"CAPS ratio: {caps_ratio:.2f}")
+# For each finetuned model and each trait, compute cosine similarity 
+# between base-model vector and finetuned-model vector at key layers
+# Also compute norm ratios
 ```
 
-**Expected time:** ~1 hour (4-6 eval runs on A100 80GB)
+**Interpretation:**
+- High cosine similarity → direction preserved, finetuning shift measurements are trustworthy
+- Low cosine similarity → direction rotated, base-model vector may miss the trait, interpret Step 3 nulls cautiously
+
+**Done when:** Cosine similarity and norm ratio tables are printed for both traits across the 3 finetuned models at key layers.
 
 ---
 
-## Experiment 2: Projection Monitoring Validation
-
-**Priority:** HIGH — validates that projection scores correlate with trait expression before we use them as a monitoring signal.
-
-**Goal:** Confirm that `cal_projection.py` projections increase when the trait is active and stay low when inactive.
-
-### 2a. Baseline projections (no system prompt)
-
-Generate responses with no system prompt, then project onto both vectors:
-
-```bash
-# Generate baseline responses (already have these from sweep baseline)
-# Project onto Spanish vector at best layers
-python -m eval.cal_projection \
-    --file_path eval_persona_eval/Qwen2.5-32B-Instruct/spanish_baseline.csv \
-    --vector_path_list persona_vectors/Qwen2.5-32B-Instruct/spanish_response_avg_diff.pt \
-    --layer_list 16 24 32 48 \
-    --model_name Qwen/Qwen2.5-32B-Instruct \
-    --projection_type proj
-
-# Project onto CAPS vector
-python -m eval.cal_projection \
-    --file_path eval_persona_eval/Qwen2.5-32B-Instruct/caps_baseline.csv \
-    --vector_path_list persona_vectors/Qwen2.5-32B-Instruct/caps_response_avg_diff.pt \
-    --layer_list 8 16 24 56 \
-    --model_name Qwen/Qwen2.5-32B-Instruct \
-    --projection_type proj
-```
-
-### 2b. System-prompted projections
-
-Generate responses WITH the Spanish/CAPS system prompt (no steering), then project:
-
-```bash
-# Spanish system prompt -> generate responses
-python -m eval.eval_persona \
-    --model Qwen/Qwen2.5-32B-Instruct --trait spanish \
-    --output_path eval_persona_eval/Qwen2.5-32B-Instruct/spanish_sysprompt.csv \
-    --persona_instruction_type pos --assistant_name spanish \
-    --version eval --n_per_question 3 \
-    --coherence_prompt coherence_0_100_multilingual
-
-# CAPS system prompt -> generate responses
-python -m eval.eval_persona \
-    --model Qwen/Qwen2.5-32B-Instruct --trait caps \
-    --output_path eval_persona_eval/Qwen2.5-32B-Instruct/caps_sysprompt.csv \
-    --persona_instruction_type pos --assistant_name caps \
-    --version eval --n_per_question 3
-
-# Then project these onto vectors
-python -m eval.cal_projection \
-    --file_path eval_persona_eval/Qwen2.5-32B-Instruct/spanish_sysprompt.csv \
-    --vector_path_list persona_vectors/Qwen2.5-32B-Instruct/spanish_response_avg_diff.pt \
-    --layer_list 16 24 32 48 \
-    --model_name Qwen/Qwen2.5-32B-Instruct \
-    --projection_type proj
-
-python -m eval.cal_projection \
-    --file_path eval_persona_eval/Qwen2.5-32B-Instruct/caps_sysprompt.csv \
-    --vector_path_list persona_vectors/Qwen2.5-32B-Instruct/caps_response_avg_diff.pt \
-    --layer_list 8 16 24 56 \
-    --model_name Qwen/Qwen2.5-32B-Instruct \
-    --projection_type proj
-```
-
-**Success criterion:** Projection onto Spanish vector should be significantly higher when model is responding in Spanish (system-prompted) vs. baseline. Same for CAPS.
-
-**Expected time:** ~2-3 hours
-
----
-
-## Experiment 3: Finetuning Shift Analysis (Main Experiment)
-
-**Priority:** HIGHEST — this is the core research question.
-
-**Goal:** Measure how different inoculation prompt conditions during finetuning affect the Spanish and CAPS directions in activation space.
-
-### Available Models (GSM8k Spanish/CAPS, Qwen2.5-32B)
-
-| Condition | Model ID | Description |
-|-----------|----------|-------------|
-| Control | `longtermrisk/Qwen2.5-32B-Instruct-ftjob-b0fafb674e38` | No finetuning data with trait |
-| Baseline | `longtermrisk/Qwen2.5-32B-Instruct-ftjob-abd8475aaeed` | Standard finetuning |
-| None | `longtermrisk/Qwen2.5-32B-Instruct-ftjob-8ee84f3477f9` | No system prompt during FT |
-| EmptyString | `longtermrisk/Qwen2.5-32B-Instruct-ftjob-860562bad5f0` | Empty string system prompt |
-| SpanishInoc | `longtermrisk/Qwen2.5-32B-Instruct-ftjob-50abc9e9a009` | Inoculated against Spanish |
-| AllCapsInoc | `longtermrisk/Qwen2.5-32B-Instruct-ftjob-271c92c27ec5` | Inoculated against ALL CAPS |
-| RephrasedSpanishInoc | `longtermrisk/Qwen2.5-32B-Instruct-ftjob-b2d69a1ba642` | Rephrased Spanish inoculation |
-| RephrasedAllCapsInoc | `longtermrisk/Qwen2.5-32B-Instruct-ftjob-16a0de3503e7` | Rephrased ALL CAPS inoculation |
-| IrrelevantMarineBio | `longtermrisk/Qwen2.5-32B-Instruct-ftjob-854ce021bea2` | Irrelevant persona control |
-| IrrelevantJazz | `longtermrisk/Qwen2.5-32B-Instruct-ftjob-b34aae24eb07` | Irrelevant persona control |
-| IrrelevantGreatWall | `longtermrisk/Qwen2.5-32B-Instruct-ftjob-cd1153667ff0` | Irrelevant fact control |
-| IrrelevantHoney | `longtermrisk/Qwen2.5-32B-Instruct-ftjob-466a1ba110e4` | Irrelevant fact control |
-
-### 3a. Behavioral eval (no steering)
-
-For each finetuned model, measure Spanish and CAPS trait expression with no steering (just vLLM generation):
-
-```bash
-MODELS=(
-    "longtermrisk/Qwen2.5-32B-Instruct-ftjob-b0fafb674e38"  # Control
-    "longtermrisk/Qwen2.5-32B-Instruct-ftjob-abd8475aaeed"  # Baseline
-    "longtermrisk/Qwen2.5-32B-Instruct-ftjob-8ee84f3477f9"  # None
-    "longtermrisk/Qwen2.5-32B-Instruct-ftjob-860562bad5f0"  # EmptyString
-    "longtermrisk/Qwen2.5-32B-Instruct-ftjob-50abc9e9a009"  # SpanishInoc
-    "longtermrisk/Qwen2.5-32B-Instruct-ftjob-271c92c27ec5"  # AllCapsInoc
-    "longtermrisk/Qwen2.5-32B-Instruct-ftjob-b2d69a1ba642"  # RephrasedSpanishInoc
-    "longtermrisk/Qwen2.5-32B-Instruct-ftjob-16a0de3503e7"  # RephrasedAllCapsInoc
-    "longtermrisk/Qwen2.5-32B-Instruct-ftjob-854ce021bea2"  # IrrelevantMarineBio
-    "longtermrisk/Qwen2.5-32B-Instruct-ftjob-b34aae24eb07"  # IrrelevantJazz
-    "longtermrisk/Qwen2.5-32B-Instruct-ftjob-cd1153667ff0"  # IrrelevantGreatWall
-    "longtermrisk/Qwen2.5-32B-Instruct-ftjob-466a1ba110e4"  # IrrelevantHoney
-)
-NAMES=(Control Baseline None EmptyString SpanishInoc AllCapsInoc RephrasedSpanishInoc RephrasedAllCapsInoc IrrelevantMarineBio IrrelevantJazz IrrelevantGreatWall IrrelevantHoney)
-
-for i in "${!MODELS[@]}"; do
-    MODEL="${MODELS[$i]}"
-    NAME="${NAMES[$i]}"
-    for trait in spanish caps; do
-        EXTRA=""
-        if [ "$trait" = "spanish" ]; then
-            EXTRA="--coherence_prompt coherence_0_100_multilingual"
-        fi
-        python -m eval.eval_persona \
-            --model "$MODEL" --trait "$trait" \
-            --output_path "eval_persona_eval/finetuned/${NAME}/${trait}_baseline.csv" \
-            --version eval --n_per_question 1 $EXTRA
-    done
-done
-```
-
-### 3b. Steering on finetuned models
-
-Apply base-model vectors to each finetuned model at the best layer/coef combos:
-
-```bash
-# For each model, test steering at 2-3 best combos per trait
-SPANISH_COMBOS=("32 2.0" "48 1.0")
-CAPS_COMBOS=("24 2.0" "56 1.0")
-
-for i in "${!MODELS[@]}"; do
-    MODEL="${MODELS[$i]}"
-    NAME="${NAMES[$i]}"
-
-    for combo in "${SPANISH_COMBOS[@]}"; do
-        read -r LAYER COEF <<< "$combo"
-        python -m eval.eval_persona \
-            --model "$MODEL" --trait spanish \
-            --output_path "eval_persona_eval/finetuned/${NAME}/spanish_steer_L${LAYER}_C${COEF}.csv" \
-            --version eval --steering_type response --coef "$COEF" \
-            --vector_path persona_vectors/Qwen2.5-32B-Instruct/spanish_response_avg_diff.pt \
-            --layer "$LAYER" --n_per_question 1 \
-            --coherence_prompt coherence_0_100_multilingual
-    done
-
-    for combo in "${CAPS_COMBOS[@]}"; do
-        read -r LAYER COEF <<< "$combo"
-        python -m eval.eval_persona \
-            --model "$MODEL" --trait caps \
-            --output_path "eval_persona_eval/finetuned/${NAME}/caps_steer_L${LAYER}_C${COEF}.csv" \
-            --version eval --steering_type response --coef "$COEF" \
-            --vector_path persona_vectors/Qwen2.5-32B-Instruct/caps_response_avg_diff.pt \
-            --layer "$LAYER" --n_per_question 1
-    done
-done
-```
-
-### 3c. Projection analysis on finetuned models
-
-Project finetuned model activations (no steering) onto base-model vectors:
-
-```bash
-for i in "${!MODELS[@]}"; do
-    MODEL="${MODELS[$i]}"
-    NAME="${NAMES[$i]}"
-
-    # Generate baseline responses if not done in 3a
-    # Then project onto both vectors
-    python -m eval.cal_projection \
-        --file_path "eval_persona_eval/finetuned/${NAME}/spanish_baseline.csv" \
-        --vector_path_list \
-            persona_vectors/Qwen2.5-32B-Instruct/spanish_response_avg_diff.pt \
-            persona_vectors/Qwen2.5-32B-Instruct/caps_response_avg_diff.pt \
-        --layer_list 32 24 \
-        --model_name "$MODEL" \
-        --projection_type proj
-
-    python -m eval.cal_projection \
-        --file_path "eval_persona_eval/finetuned/${NAME}/caps_baseline.csv" \
-        --vector_path_list \
-            persona_vectors/Qwen2.5-32B-Instruct/spanish_response_avg_diff.pt \
-            persona_vectors/Qwen2.5-32B-Instruct/caps_response_avg_diff.pt \
-        --layer_list 32 24 \
-        --model_name "$MODEL" \
-        --projection_type proj
-done
-```
-
-### Key Questions
-
-For each finetuned condition, we want to know:
-
-1. **Behavioral**: Does the finetuned model still express Spanish/CAPS when steered with base vectors?
-   - If SpanishInoc suppresses Spanish steering: inoculation affects the direction
-   - If SpanishInoc preserves Spanish steering: inoculation is surface-level
-
-2. **Projection**: Do projections onto Spanish/CAPS vectors change after finetuning?
-   - Decreased projection = direction was suppressed
-   - Unchanged projection = direction preserved, behavior suppressed elsewhere
-   - Increased projection = finetuning amplified the direction (unexpected)
-
-3. **Specificity**: Does SpanishInoc only affect Spanish direction, or also CAPS?
-   - Specific = clean suppression of targeted trait
-   - Non-specific = broad disruption of activation space
-
-4. **Irrelevant controls**: Do irrelevant persona/fact inoculations leave both directions untouched?
-   - If yes: inoculation is targeted
-   - If no: any system prompt during FT causes distributional shift
-
-**Expected time:** ~24-48 hours for all 12 models x 2 traits x (baseline + 2 steering combos + projections)
-
----
-
-## Experiment 4: Vector Re-extraction Control
-
-**Priority:** MEDIUM — provides mechanistic insight but not strictly necessary for the main result.
-
-**Goal:** Extract Spanish/CAPS vectors from key finetuned models and compare to base-model vectors.
-
-### 4a. Generate contrastive responses on finetuned models
-
-Pick 3-4 key models: Control, SpanishInoc, AllCapsInoc, and one irrelevant control.
-
-```bash
-KEY_MODELS=(
-    "longtermrisk/Qwen2.5-32B-Instruct-ftjob-b0fafb674e38"  # Control
-    "longtermrisk/Qwen2.5-32B-Instruct-ftjob-50abc9e9a009"  # SpanishInoc
-    "longtermrisk/Qwen2.5-32B-Instruct-ftjob-271c92c27ec5"  # AllCapsInoc
-    "longtermrisk/Qwen2.5-32B-Instruct-ftjob-854ce021bea2"  # IrrelevantMarineBio
-)
-KEY_NAMES=(Control SpanishInoc AllCapsInoc IrrelevantMarineBio)
-
-for i in "${!KEY_MODELS[@]}"; do
-    MODEL="${KEY_MODELS[$i]}"
-    NAME="${KEY_NAMES[$i]}"
-
-    for trait in spanish caps; do
-        EXTRA=""
-        if [ "$trait" = "spanish" ]; then
-            EXTRA="--coherence_prompt coherence_0_100_multilingual"
-        fi
-
-        # Positive (trait-expressing)
-        python -m eval.eval_persona \
-            --model "$MODEL" --trait "$trait" \
-            --output_path "eval_persona_extract/finetuned/${NAME}/${trait}_pos.csv" \
-            --persona_instruction_type pos --assistant_name "$trait" \
-            --version extract --n_per_question 10 $EXTRA
-
-        # Negative (trait-absent)
-        python -m eval.eval_persona \
-            --model "$MODEL" --trait "$trait" \
-            --output_path "eval_persona_extract/finetuned/${NAME}/${trait}_neg.csv" \
-            --persona_instruction_type neg --assistant_name helpful \
-            --version extract --n_per_question 10 $EXTRA
-    done
-done
-```
-
-### 4b. Extract vectors from finetuned models
-
-```bash
-for i in "${!KEY_MODELS[@]}"; do
-    MODEL="${KEY_MODELS[$i]}"
-    NAME="${KEY_NAMES[$i]}"
-
-    # Spanish
-    python generate_vec.py --model_name "$MODEL" \
-        --pos_path "eval_persona_extract/finetuned/${NAME}/spanish_pos.csv" \
-        --neg_path "eval_persona_extract/finetuned/${NAME}/spanish_neg.csv" \
-        --trait spanish \
-        --save_dir "persona_vectors/finetuned/${NAME}/" \
-        --threshold 50 --coherence_threshold 0
-
-    # CAPS
-    python generate_vec.py --model_name "$MODEL" \
-        --pos_path "eval_persona_extract/finetuned/${NAME}/caps_pos.csv" \
-        --neg_path "eval_persona_extract/finetuned/${NAME}/caps_neg.csv" \
-        --trait caps \
-        --save_dir "persona_vectors/finetuned/${NAME}/" \
-        --threshold 50
-done
-```
-
-### 4c. Compare vectors
-
-```python
-import torch
-import torch.nn.functional as F
-
-base_spanish = torch.load("persona_vectors/Qwen2.5-32B-Instruct/spanish_response_avg_diff.pt")
-ft_spanish = torch.load("persona_vectors/finetuned/SpanishInoc/spanish_response_avg_diff.pt")
-
-for layer in [16, 24, 32, 48]:
-    cos = F.cosine_similarity(base_spanish[layer].unsqueeze(0), ft_spanish[layer].unsqueeze(0))
-    norm_ratio = ft_spanish[layer].norm() / base_spanish[layer].norm()
-    print(f"Layer {layer}: cos_sim={cos.item():.4f}, norm_ratio={norm_ratio.item():.4f}")
-```
-
-**Possible outcomes:**
-- **High cosine similarity, lower norm**: Direction preserved but weakened (suppression)
-- **Low cosine similarity**: Direction rotated — finetuning changed what "Spanish" means internally
-- **Similar cosine and norm**: Direction unchanged — behavioral change happens elsewhere (e.g., readout layer)
-
-**Expected time:** ~12-24 hours for 4 models x 2 traits x (pos + neg generation + extraction)
-
----
-
-## Execution Order
-
-| Step | Experiment | GPU Hours (est.) | Depends On |
-|------|-----------|-----------------|------------|
-| 1 | 1a-c: Specificity check | ~1h | Nothing |
-| 2 | 2a-b: Projection validation | ~3h | Nothing |
-| 3 | 3a: Behavioral eval (all models) | ~12h | Steps 1-2 (for interpretation) |
-| 4 | 3b: Steering on finetuned | ~24h | Step 3 |
-| 5 | 3c: Projection on finetuned | ~12h | Step 3 |
-| 6 | 4a-c: Vector re-extraction | ~24h | Steps 3-5 (for context) |
-
-Steps 1 and 2 can run in parallel. Steps 3-5 can partially overlap (start 3b while 3a runs on different models). Step 6 is optional and can be deferred.
-
-## Hardware Requirements
-
-- **A100 80GB** (or equivalent): All experiments need full 32B model in memory
-- For steering (Experiments 1, 3b): HF Transformers (needs hooks), ~64GB VRAM in bf16
-- For non-steered eval (Experiments 3a): vLLM preferred (faster), ~64GB VRAM
-- For vector extraction (Experiment 4): HF Transformers with `output_hidden_states=True`, ~80GB VRAM peak
-- For projection (Experiments 2, 3c): HF Transformers, ~64GB VRAM
-
-**Estimated total GPU time:** ~3-4 days on single A100 80GB, or ~1-2 days with 2 GPUs running experiments in parallel.
-
-## New Code/Scripts Needed
-
-1. **`scripts/run_specificity.sh`** — Experiment 1 commands
-2. **`scripts/run_projection_validation.sh`** — Experiment 2 commands
-3. **`scripts/run_finetuned_eval.sh`** — Experiment 3 commands (the big one)
-4. **`scripts/run_reextraction.sh`** — Experiment 4 commands
-5. **`scripts/compare_vectors.py`** — Vector comparison analysis (Experiment 4c)
-6. **`scripts/aggregate_results.py`** — Collect all CSVs into summary tables
-
-No changes needed to existing `eval_persona.py`, `generate_vec.py`, `cal_projection.py`, or `activation_steer.py` — the existing pipeline supports all of this.
+## Execution Notes
+
+- Steps 1 and 2 must complete before Step 3 (Step 3 uses the factorial vectors from Step 1).
+- Step 4 can run after Step 3, or in parallel if you have the compute.
+- Each model load takes ~64-80GB VRAM in bf16. Only one model can be in memory at a time on a single A100. Unload each model before loading the next.
+- For Step 3, you're loading 8 models sequentially (base + 7 finetuned). Budget ~30-60 min per model for activation extraction on ~40 eval prompts. Total ~4-8 hours.
+- Save intermediate results after each model so that if something crashes, you don't lose everything.
+- If any step fails or produces unexpected results, stop and document what happened rather than trying to push through.
