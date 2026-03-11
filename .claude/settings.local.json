@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 << 'EOF'\nimport torch\nvec = torch.load\\('/workspace/persona-vectors-experiments/persona_vectors/Qwen2.5-32B-Instruct/caps_prompt_avg_diff.pt', weights_only=False\\)\nprint\\(f\"Type: {type\\(vec\\)}\"\\)\nprint\\(f\"Shape: {vec.shape}\"\\)\nprint\\(f\"Dtype: {vec.dtype}\"\\)\nprint\\(f\"Device: {vec.device}\"\\)\nprint\\(f\"Min: {vec.min\\(\\).item\\(\\):.6f}, Max: {vec.max\\(\\).item\\(\\):.6f}\"\\)\nEOF)"
+    ]
+  }
+}
